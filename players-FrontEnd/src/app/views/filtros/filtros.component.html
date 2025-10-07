@@ -1,0 +1,211 @@
+<app-header></app-header>
+
+<h1>¿Cómo desea filtrar el jugador?</h1>
+<div class="filter-container">
+  <ul class="filter-buttons">
+    <li class="filter-item" (click)="activar('nombre')">Nombre</li>
+    <li class="filter-item" (click)="activar('club')">Club</li>
+    <li class="filter-item" (click)="activar('pais')">País</li>
+    <li class="filter-item" (click)="activar('posicion')">Posición</li>
+    <li class="filter-item" (click)="activar('valoracion')">Valoración</li>
+  </ul>
+</div>
+
+
+
+
+<div class="busqueda-nombre" *ngIf="nombre">
+  <h1>Búsqueda por Nombre</h1>
+  <label for="nombre">Ingrese nombre del jugador: </label>
+  <input type="text" id="nombre" name="nombre" [(ngModel)]="busquedaNombre" />
+  <label for="limite-jugadores">Límite de jugadores: </label>
+  <select
+    id="limite-jugadores"
+    name="limite-jugadores"
+    [(ngModel)]="limiteDeJugadores"
+  >
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+  </select>
+  <button (click)="obtenerJugadorPorNombre()">Buscar</button>
+</div>
+
+<div class="busqueda-club" *ngIf="club">
+  <h1>Búsqueda por Club</h1>
+  <label for="nombre-club">Ingrese nombre del club: </label>
+  <input
+    type="text"
+    id="nombre-club"
+    name="nombre-club"
+    [(ngModel)]="busquedaClubName"
+  />
+  <label for="valor-temporada">Seleccione temporada: </label>
+  <select
+    id="valor-temporada"
+    name="valor-temporada"
+    [(ngModel)]="busquedaClubSeason"
+  >
+    <option value="15">15</option>
+    <option value="16">16</option>
+    <option value="17">17</option>
+    <option value="18">18</option>
+    <option value="19">19</option>
+    <option value="20">20</option>
+    <option value="21">21</option>
+    <option value="22">22</option>
+    <option value="23">23</option>
+  </select>
+  <select
+    id="limite-jugadores"
+    name="limite-jugadores"
+    [(ngModel)]="limiteDeJugadores"
+  >
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+  </select>
+  <button (click)="obtenerJugadoresPorClub()">Buscar</button>
+</div>
+
+<div class="busqueda-pais" *ngIf="pais">
+  <h1>Búsqueda por país:</h1>
+  <label for="nombre-pais">Ingrese nombre del País: </label>
+  <input
+    type="text"
+    id="nombre-pais"
+    name="nombre-pais"
+    [(ngModel)]="busquedaPaisName"
+  />
+  <label for="valor-temporada">Seleccione temporada: </label>
+  <select
+    id="valor-temporada"
+    name="valor-temporada"
+    [(ngModel)]="busquedaPaisSeason"
+  >
+    <option value="15">15</option>
+    <option value="16">16</option>
+    <option value="17">17</option>
+    <option value="18">18</option>
+    <option value="19">19</option>
+    <option value="20">20</option>
+    <option value="21">21</option>
+    <option value="22">22</option>
+    <option value="23">23</option>
+  </select>
+  <select
+    id="limite-jugadores"
+    name="limite-jugadores"
+    [(ngModel)]="limiteDeJugadores"
+  >
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+  </select>
+  <button (click)="obtenerJugadoresPorPais()">Buscar</button>
+</div>
+
+<div class="busqueda-posicion" *ngIf="posicion">
+  <h1>Búsqueda por posición:</h1>
+  <label for="posicion">Seleccione una posición: </label>
+  <select
+    name="valor-posicion"
+    id="valor-posicion"
+    [(ngModel)]="busquedaPosicion"
+  >
+    <option value="gk">Arquero</option>
+    <option value="cb">Defensa Central</option>
+    <option value="lb">Lateral Izquierdo</option>
+    <option value="rb">Lateral Derecho</option>
+    <option value="lwb">Carrilero Izquierdo</option>
+    <option value="rwb">Carrilero Derecho</option>
+    <option value="cdm">Mediocampista Defensivo Central</option>
+    <option value="cm">Mediocampista Central</option>
+    <option value="cam">Mediocampista Ofensivo Central</option>
+    <option value="lm">Mediocampista Izquierdo</option>
+    <option value="rm">Mediocampista Derecho</option>
+    <option value="lw">Extremo Izquierdo</option>
+    <option value="rw">Extremo Derecho</option>
+    <option value="lf">Delantero Izquierdo</option>
+    <option value="rf">Delantero Derecho</option>
+    <option value="cf">Delantero Centro</option>
+    <option value="st">Puntero</option>
+    <option value="ss">Segundo Delantero</option>
+  </select>
+  <select
+    id="limite-jugadores"
+    name="limite-jugadores"
+    [(ngModel)]="limiteDeJugadores"
+  >
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+  </select>
+  <button (click)="obtenerJugadoresPorPosicion()">Buscar</button>
+</div>
+
+<div class="busqueda-valoracion" *ngIf="valoracion">
+  <h1>Búsqueda por Valoración</h1>
+  <label for="valoracion">Ingrese una valoración: </label>
+  <input
+    type="number"
+    min="55"
+    max="100"
+    id="valoracion"
+    name="valoracion"
+    [(ngModel)]="busquedaValoracion"
+  />
+  <select
+    id="limite-jugadores"
+    name="limite-jugadores"
+    [(ngModel)]="limiteDeJugadores"
+  >
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+  </select>
+  <button (click)="obtenerJugadoresPorValoracion()">Buscar</button>
+</div>
+
+<div class="resultados" *ngIf="resultados.length > 0 && busquedaRealizada">
+  <h1>Resultados</h1>
+  <button (click)="descarga(valorDeDescarga)">Descargar CSV</button>
+  <table>
+    <tr>
+      <th>Nombre</th>
+      <th>Versión</th>
+      <th>Imagen</th>
+      <th>Nacionalidad</th>
+      <th>Club</th>
+      <th>Valoración</th>
+      <th>Posición</th>
+      <th>Pie</th>
+      <th>Edad</th>
+    </tr>
+    <tr *ngFor="let player of resultados">
+      <td>{{ player.long_name }}</td>
+      <td>{{ player.fifa_version }}</td>
+      <td><img src="{{ player.player_face_url }}" alt="" /></td>
+      <td>{{ player.nationality_name }}</td>
+      <td>{{player.club_name}}</td>
+      <td>{{ player.overall }}</td>
+      <td>{{ player.player_positions }}</td>
+      <td>{{ player.preferred_foot }}</td>
+      <td>{{ player.age }}</td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="resultados.length === 0 && busquedaRealizada" class="no-resultados">
+  <h1>No se encontraron resultados</h1>
+</div>
+
+
+
+
+

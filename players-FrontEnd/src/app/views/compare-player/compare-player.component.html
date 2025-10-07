@@ -1,0 +1,71 @@
+<app-header></app-header>
+<div class="busqueda-nombre">
+  <h1>Búsqueda por Nombre</h1>
+  <label for="nombre">Ingrese nombre del jugador: </label>
+  <input type="text" id="nombre" name="nombre" [(ngModel)]="busquedaNombre" />
+
+  <label>Seleccione posicion del juguador:</label>
+  <button type="button" class="button-arquero" (click)="valorJugador('arquero')">Arquero</button>
+  <button type="button" class="button-campo" (click)="valorJugador('campo')">Campo</button>
+
+  <div *ngIf="campo">
+    <label for="player-stats">Selecciona una estadística del jugador:</label>
+    <select id="player-stats" name="player-stats" [(ngModel)]="selectedStat">
+      <option value="pace">Velocidad</option>
+      <option value="shooting">Tiro</option>
+      <option value="passing">Pase</option>
+      <option value="dribbling">Regate</option>
+      <option value="defending">Defensa</option>
+      <option value="physic">Físico</option>
+    </select>
+  </div>
+  <div *ngIf="arquero">
+    <label for="goalkeeper-stats"
+      >Selecciona una estadística del Arquero:</label
+    >
+    <select
+      id="goalkeeper-stats"
+      name="goalkeeper-stats"
+      [(ngModel)]="selectedStat"
+    >
+      <option value="goalkeeping_diving">Salto</option>
+      <option value="goalkeeping_handling">Atrapar</option>
+      <option value="goalkeeping_kicking">Pegada</option>
+      <option value="goalkeeping_positioning">Posicionamiento</option>
+      <option value="goalkeeping_reflexes">Reflejos</option>
+      <option value="goalkeeping_speed">Velocidad</option>
+    </select>
+  </div>
+</div>
+<button (click)="obtenerJugadorPorNombre()" class="button-buscar">Buscar</button>
+<div class="chart">
+  <canvas id="myChart"></canvas>
+</div>
+<div class="resultados" *ngIf="resultados.length > 0">
+  <h1>Resultados</h1>
+
+  <table>
+    <tr>
+      <th>Nombre</th>
+      <th>Versión</th>
+      <th>Imagen</th>
+      <th>Nacionalidad</th>
+      <th>Club</th>
+      <th>Valoración</th>
+      <th>Posición</th>
+      <th>Pie</th>
+      <th>Edad</th>
+    </tr>
+    <tr *ngFor="let player of resultados">
+      <td>{{ player.long_name }}</td>
+      <td>{{ player.fifa_version }}</td>
+      <td><img src="{{ player.player_face_url }}" alt="" /></td>
+      <td>{{ player.nationality_name }}</td>
+      <td>{{ player.club_name }}</td>
+      <td>{{ player.overall }}</td>
+      <td>{{ player.player_positions }}</td>
+      <td>{{ player.preferred_foot }}</td>
+      <td>{{ player.age }}</td>
+    </tr>
+  </table>
+</div>

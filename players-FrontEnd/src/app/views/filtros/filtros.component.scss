@@ -1,0 +1,134 @@
+
+  h1 {
+    color: #333;
+    text-align: center;
+  }
+  
+  .filter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .filter-buttons {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+  }
+  
+  .filter-item {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .filter-item:hover {
+    background-color: #0056b3;
+  }
+  
+  .busqueda-nombre,
+  .busqueda-club,
+  .busqueda-pais,
+  .busqueda-posicion,
+  .busqueda-valoracion {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input,
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  
+  .resultados {
+    margin-top: 20px;
+  }
+  
+  .resultados table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .resultados th,
+  .resultados td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .resultados th {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .resultados img {
+    max-width: 50px;
+  }
+  
+  .respuesta {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .no-resultados {
+    margin-top: 20px;
+    text-align: center;
+    background-color: #ffdddd; 
+    color: #d8000c; 
+    border: 1px solid #d8000c; 
+    border-radius: 5px;
+    padding: 15px; 
+    font-size: 18px; 
+}
+
+  @media (max-width: 768px) {
+    .filter-container {
+      align-items: flex-start;
+    }
+  
+    .filter-buttons {
+      flex-direction: row; 
+      flex-wrap: wrap; 
+    }
+  
+    .filter-item {
+      flex: 1 1 calc(33% - 10px); 
+      margin: 5px;
+    }
+  }
+  
+  

@@ -1,0 +1,23 @@
+<app-header></app-header>
+
+<h1>Crear Jugador</h1>
+
+<div class="create-player">
+    <form [formGroup]="createPlayerForm" (ngSubmit)="crearJugador()">
+        <label for="long_name">Nombre:</label>
+        <input formControlName="long_name" />
+        <label for="nationality_name">Nacionalidad:</label>
+        <input formControlName="nationality_name" />
+        <label for="overall">Valoración:</label>
+        <input type="number" formControlName="overall" />
+        <label for="age">Edad:</label>
+        <input type="number" formControlName="age" />
+        <label for="club_name">Club:</label>
+        <input formControlName="club_name" />
+        <label for="player_positions">Posición:</label>
+        <input formControlName="player_positions" />
+        <label for="preferred_foot">Pie: </label>
+        <input formControlName="preferred_foot" />
+        <button type="submit" [disabled]="createPlayerForm.invalid">Crear Jugador</button>
+      </form>
+</div>

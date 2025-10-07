@@ -1,0 +1,108 @@
+#myChart{
+    //max-width: 100%;
+    height: 500px;
+    width: 50px; 
+    
+    
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.un-jugador {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px; 
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+select {
+    width: 100%; 
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-guardar {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%; 
+}
+
+.btn-guardar:hover {
+    background-color: #218838;
+}
+
+.resultados {
+    margin-top: 20px;
+}
+
+.resultados table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px; 
+}
+
+.resultados th,
+.resultados td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.resultados th {
+    background-color: #007bff;
+    color: white;
+}
+
+.resultados img {
+    max-width: 50px; 
+}
+
+.chart {
+    margin-top: 20px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .un-jugador {
+        padding: 15px;
+    }
+
+    .btn-guardar {
+        padding: 8px 12px;
+    }
+
+    input,
+    select {
+        font-size: 14px; 
+    }
+}

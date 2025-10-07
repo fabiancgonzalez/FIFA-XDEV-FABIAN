@@ -1,0 +1,383 @@
+{
+	"info": {
+		"_postman_id": "c5e0a89d-fd28-48ea-b0c6-5e735d314081",
+		"name": "Fifa Players Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26957079",
+		"_collection_link": "https://lively-station-567126.postman.co/workspace/teclab~d6a8239b-427a-413f-bbbf-5286864d83a3/collection/26957079-c5e0a89d-fd28-48ea-b0c6-5e735d314081?action=share&source=collection_link&creator=26957079"
+	},
+	"item": [
+		{
+			"name": "postLogin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"usuario\": \"usuario\",\r\n  \"password\": \"password\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getById",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "getByNames",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/players/name/Lionel%20Andr%C3%A9s%20Messi%20Cuccittini?limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"players",
+						"name",
+						"Lionel%20Andr%C3%A9s%20Messi%20Cuccittini"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getByTeam",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"limit\":\"10\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/players/club/talleres/23?limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"players",
+						"club",
+						"talleres",
+						"23"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getByCountry",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/players/country/argentina/15?limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"players",
+						"country",
+						"argentina",
+						"15"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getByPosition",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/players/position/cf?limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"players",
+						"position",
+						"cf"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getByOverall",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/players/overall/94?limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"players",
+						"overall",
+						"94"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOnePlayerByName",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/players/name/Lionel%20Andr%C3%A9s%20Messi%20Cuccittini/15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"players",
+						"name",
+						"Lionel%20Andr%C3%A9s%20Messi%20Cuccittini",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "putPlayer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"long_name\": \"Ruben Filipe Marques Amorim\",\r\n  \"overall\": 77,\r\n  \"age\": 29,\r\n  \"nationality_name\": \"Portugal\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/players/555\n",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"players",
+						"555\n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postPlayer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"long_name\":\"Ramon Sosa\",\r\n    \"player_positions\":\"LW\",\r\n    \"club_name\":\"Talleres\",\r\n    \"nationality_name\":\"Paraguay\",\r\n    \"overall\":\"80\",\r\n    \"age\":\"24\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/players/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"players",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

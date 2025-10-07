@@ -1,0 +1,77 @@
+<app-header></app-header>
+
+<div class="buscar-editar-jugador">
+    <h2>Buscar y Editar Jugador</h2>
+    <div class="form-group">
+        <label for="nombre-jugador">Ingrese nombre del jugador:</label>
+        <input type="text" [(ngModel)]="busquedaJugador" />
+    </div>
+    <div class="form-group">
+        <label for="limite-jugadores">Limite de jugadores:</label>
+        <select id="limite-jugadores" name="limite-jugadores" [(ngModel)]="limiteDeJugadores">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+        </select>
+    </div>
+    <button class="btn-buscar" (click)="buscarJugador()">Buscar</button>
+
+    <div *ngIf="busquedaRealizada && resultados.length === 0" class="no-resultados">
+        <p>No se encontraron resultados</p>
+    </div>
+
+    <table *ngIf="resultados.length > 0">
+        <tr>
+            <th>Nombre</th>
+            <th>Fifa Version</th>
+            <th>Club</th>
+            <th>Nacionalidad</th>
+            <th>Valoración</th>
+            <th>Acciones</th>
+        </tr>
+        <tr *ngFor="let player of resultados">
+            <td>{{ player.long_name }}</td>
+            <td>{{ player.fifa_version }}</td>
+            <td>{{ player.club_name }}</td>
+            <td>{{ player.nationality_name }}</td>
+            <td>{{ player.overall }}</td>
+            <td>
+                <button class="btn-editar" (click)="seleccionarJugador(player)">Editar</button>
+                <button class="btn-borrar" (click)="borrarJugador(player)">Borrar</button>
+            </td>
+        </tr>
+    </table>
+    
+    <div *ngIf="selectedPlayerId !== null">
+        <h3>Editar Jugador</h3>
+        <form [formGroup]="editPlayerForm" (ngSubmit)="guardarCambios()">
+            <div class="form-group">
+                <label for="long_name">Nombre:</label>
+                <input formControlName="long_name" />
+            </div>
+            <div class="form-group">
+                <label for="nationality_name">Nacionalidad:</label>
+                <input formControlName="nationality_name" />
+            </div>
+            <div class="form-group">
+                <label for="overall">Valoración:</label>
+                <input type="number" formControlName="overall" />
+            </div>
+            <div class="form-group">
+                <label for="age">Edad:</label>
+                <input type="number" formControlName="age" />
+            </div>
+            <div class="form-group">
+                <label for="club_name">Club:</label>
+                <input formControlName="club_name" />
+            </div>
+            <div class="form-group">
+                <label for="player_positions">Posición:</label>
+                <input formControlName="player_positions" />
+            </div>
+            <button type="submit" class="btn-guardar" [disabled]="editPlayerForm.invalid">Guardar Cambios</button>
+        </form>
+    </div>
+  
+</div>

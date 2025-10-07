@@ -1,0 +1,69 @@
+<app-header></app-header>
+
+<div class="un-jugador">
+    <h1>Busqueda un jugador especifico</h1>
+    <div class="form-group">
+        <label for="nombre-jugador">Ingrese nombre del Jugador: </label>
+        <input
+          type="text"
+          id="nombre-jugador"
+          name="nombre-jugador"
+          [(ngModel)]="busquedaJugador"
+        />
+    </div>
+    <div class="form-group">
+        <label for="valor-temporada">Seleccione temporada: </label>
+        <select
+          id="valor-temporada"
+          name="valor-temporada"
+          [(ngModel)]="busquedaJugadorSeason"
+        >
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+        </select>
+    </div>
+    <button class="btn-guardar" (click)="obtenerJugador()">Buscar</button>
+</div>
+
+<div class="resultados" *ngIf="resultados.length > 0">
+    <h1>Resultados</h1>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Versión</th>
+            <th>Imagen</th>
+            <th>Nacionalidad</th>
+            <th>Valoración</th>
+            <th>Posición</th>
+            <th>Club</th>
+            <th>Pie</th>
+            <th>Edad</th>
+        </tr>
+        <tr *ngFor="let player of resultados">
+            <td>{{ player.long_name }}</td>
+            <td>{{ player.fifa_version }}</td>
+            <td><img src="{{ player.player_face_url }}" alt="" /></td>
+            <td>{{player.nationality_name}}</td>
+            <td>{{player.overall}}</td>
+            <td>{{player.player_positions}}</td>
+            <td>{{player.club_name}}</td>
+            <td>{{player.preferred_foot}}</td>
+            <td>{{player.age}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="chart">
+    <canvas id="myChart"></canvas>
+</div>
+
+<div *ngIf="resultados.length === 0 && busquedaRealizada">
+    <h1>No se encontraron resultados</h1>
+</div>
