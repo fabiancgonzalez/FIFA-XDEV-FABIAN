@@ -21,8 +21,10 @@
   }
   
   .filter-item {
-    background-color: #007bff;
-    color: white;
+ 
+
+    background-color: #ff4d00; 
+    color: rgb(46, 42, 42);
     padding: 10px 15px;
     margin: 5px;
     border-radius: 5px;
@@ -61,7 +63,10 @@
   }
   
   button {
-    background-color: #28a745;
+  
+
+    background-color: #ff4d00; 
+    color: rgb(46, 42, 42);
     color: white;
     padding: 10px 15px;
     border: none;
@@ -71,7 +76,7 @@
   }
   
   button:hover {
-    background-color: #218838;
+   background-color: #0056b3;
   }
   
   .resultados {

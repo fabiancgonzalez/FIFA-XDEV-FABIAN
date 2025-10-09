@@ -56,10 +56,15 @@
       <th>Pie</th>
       <th>Edad</th>
     </tr>
-    <tr *ngFor="let player of resultados">
+    <tr *ngFor="let player of resultados || [] ">
       <td>{{ player.long_name }}</td>
       <td>{{ player.fifa_version }}</td>
-      <td><img src="{{ player.player_face_url }}" alt="" /></td>
+      <td>
+        <img *ngIf="player.player_face_url || []" [src]="player.player_face_url" alt="Foto" width="64" height="64" />
+      </td>
+      <!-- NO RENDERIZA LA IMAGEN ---POSIBLE ENCODEURI QUE NO LO TOMA-->
+      <!--<td><img [src]="player.player_face_url" alt="" width="64" height="64" /></td>-->
+      <!--<td><img [src]="player.player_face_url" alt=" " /></td>-->
       <td>{{ player.nationality_name }}</td>
       <td>{{ player.club_name }}</td>
       <td>{{ player.overall }}</td>

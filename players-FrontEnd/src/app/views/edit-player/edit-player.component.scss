@@ -42,7 +42,15 @@ select {
     border-radius: 5px;
 }
 
-.btn-buscar,
+.btn-buscar {background-color: #ff4d00; 
+    color: rgb(46, 42, 42);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s;
+    width: 100%; }
 .btn-editar,
 .btn-borrar,
 .btn-guardar {

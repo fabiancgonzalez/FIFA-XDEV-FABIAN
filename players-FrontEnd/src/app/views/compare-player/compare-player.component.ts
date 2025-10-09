@@ -9,6 +9,9 @@ import { Chart, ChartConfiguration, registerables } from 'chart.js';
   styleUrls: ['./compare-player.component.scss'] 
 })
 export class ComparePlayerComponent implements OnInit {
+encodeURIComponent(arg0: any) {
+throw new Error('Method not implemented.');
+}
   busquedaNombre: string = '';
   token: any = '';
   limiteDeJugadores: number = 15;
@@ -19,6 +22,8 @@ export class ComparePlayerComponent implements OnInit {
   dataPlayer:any[] = [];
   labelsPlayer: any[] =[];
   selectedStat: string = '';
+  url = '';
+  player_face_url = '';
 
   constructor(private moduloHttpService: ModuloHTTPService, private authService: AuthService) {
     Chart.register(...registerables);
@@ -42,12 +47,14 @@ export class ComparePlayerComponent implements OnInit {
       console.log(this.arquero, this.campo)
     }
   }
+  /*
   obtenerJugadorPorNombre() {
     if (this.busquedaNombre.length > 0) {
       this.moduloHttpService.getPlayerByName(this.busquedaNombre, this.token, this.limiteDeJugadores).subscribe({
         next: (players) => {
-          this.resultados = players;
-          this.renderChart(); 
+          this.resultados = players;     
+
+          this.renderChart();
         },
         error: (err) => {
           this.resultados = [];
@@ -55,7 +62,32 @@ export class ComparePlayerComponent implements OnInit {
         },
       });
     }
+  }*/
+
+obtenerJugadorPorNombre() {
+  if (this.busquedaNombre.length > 0) {
+    this.moduloHttpService.getPlayerByName(this.busquedaNombre, this.token, this.limiteDeJugadores).subscribe({
+      next: (players) => {
+        // Codificamos las URLs de imagen para evitar errores de renderizado
+        this.resultados = players.map((player: ComparePlayerComponent) => {
+          const url = player.player_face_url;
+          return {
+            ...player,
+            player_face_url: url && typeof url === 'string' ? encodeURI(url) : ''
+          };
+        });
+
+        this.renderChart();
+      },
+      error: (err) => {
+        this.resultados = [];
+        console.log(err);
+      },
+    });
   }
+}
+
+
 
   renderChart(): void {
     console.log(this.selectedStat)

@@ -8,7 +8,7 @@ const secret = 'claveSecretaQueSoloElServerConoce';
 
 router.post('/login', (req, res) => {
   const { usuario, password } = req.body;
-  if (usuario === 'usuario' && password === 'password') {
+  if (usuario === 'usuario' && password === 'xdev') {
     const token = jwt.sign({ usuario: usuario }, secret);
     res.json({ token: token });
     console.log("Autenticación exitosa.")
