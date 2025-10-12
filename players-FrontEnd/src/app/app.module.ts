@@ -16,6 +16,7 @@ import { LoginComponent } from './views/login/login.component';
 
 import { AuthGuard } from './auth.guard';
 import { ComparePlayerComponent } from './views/compare-player/compare-player.component';
+import { SafeUrlPipe } from './core/pipes/safe-url.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { ComparePlayerComponent } from './views/compare-player/compare-player.co
     HeaderComponent,
     LoginComponent,
     ComparePlayerComponent,
-    
+    SafeUrlPipe
   ],
   imports: [
     BrowserModule,

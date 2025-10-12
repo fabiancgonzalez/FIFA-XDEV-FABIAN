@@ -15,6 +15,17 @@ app.use(express.json());
 app.use('/api/players', playerRoutes);
 app.use('/auth', authRoutes);
 
+
+app.options('/api/players', (req, res) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.sendStatus(200);
+});
+
+
+
+
 // Iniciar el servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

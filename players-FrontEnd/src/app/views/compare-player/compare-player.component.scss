@@ -6,6 +6,16 @@
     margin-bottom: 20px;
 }
 
+.player-image {
+    display: block;
+    object-fit: cover;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    min-width: 64px;
+    min-height: 64px;
+    border: 1px solid #ddd;
+}
+
 .busqueda-nombre h1 {
     font-size: 24px;
     color: #333;

@@ -64,7 +64,7 @@ async function getPlayersByTeam(req, res) {
     const playerNames = playerResult.map((player) => ({
       long_name: player.long_name,
       fifa_version: player.fifa_version,
-      player_face_url: player.player_face_url,
+      player_face_url: player.player_face_url ? encodeURI(player.player_face_url) : null,
       nationality_name: player.nationality_name,
       club_name: player.club_name,
       overall: player.overall,
@@ -105,7 +105,7 @@ async function getPlayersByCountry(req, res){
     const playerNames = playerResult.map((player) => ({
       long_name: player.long_name,
       fifa_version: player.fifa_version,
-      player_face_url: player.player_face_url,
+      player_face_url: player.player_face_url ? encodeURI(player.player_face_url) : null,
       nationality_name: player.nationality_name,
       club_name: player.club_name,
       overall: player.overall,
@@ -144,7 +144,7 @@ async function getPlayersByPosition(req, res){
     const players = playerResult.map((player) => ({
       long_name: player.long_name,
       fifa_version: player.fifa_version,
-      player_face_url: player.player_face_url,
+      player_face_url: player.player_face_url ? encodeURI(player.player_face_url) : null,
       nationality_name: player.nationality_name,
       club_name: player.club_name,
       overall: player.overall,
@@ -183,7 +183,8 @@ async function  getPlayersByOverall(req, res){
     const playerNames = playerResult.map((player) => ({
       long_name: player.long_name,
       fifa_version: player.fifa_version,
-      player_face_url: player.player_face_url,
+     // player_face_url: player.player_face_url,
+       player_face_url: player.player_face_url ? encodeURI(player.player_face_url) : null,
       nationality_name: player.nationality_name,
       club_name: player.club_name,
       overall: player.overall,
