@@ -1,0 +1,27 @@
+<app-header></app-header>
+
+<div class="stats-timeline-container">
+  <div class="stats-controls">
+    <div class="player-info">
+      <img [src]="playerFaceUrl" alt="{{playerName}}" class="player-image" *ngIf="playerFaceUrl"/>
+      <h2>Evolución de Habilidades - {{playerName}}</h2>
+    </div>
+    
+    <div class="skill-selector">
+      <label for="skillSelect">Seleccionar Habilidad:</label>
+      <select 
+        id="skillSelect" 
+        [(ngModel)]="selectedSkill" 
+        (ngModelChange)="onSkillChange()"
+        class="skill-select">
+        <option *ngFor="let skill of availableSkills" [value]="skill">
+          {{ formatSkillName(skill) }}
+        </option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="chart-container">
+    <canvas id="myChart"></canvas>
+  </div>
+</div>

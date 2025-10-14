@@ -17,6 +17,7 @@ import { LoginComponent } from './views/login/login.component';
 import { AuthGuard } from './auth.guard';
 import { ComparePlayerComponent } from './views/compare-player/compare-player.component';
 import { SafeUrlPipe } from './core/pipes/safe-url.pipe';
+import { StatsTimelineComponent } from './views/stats-timeline/stats-timeline.component';
 
 @NgModule({
   declarations: [
@@ -29,17 +30,17 @@ import { SafeUrlPipe } from './core/pipes/safe-url.pipe';
     HeaderComponent,
     LoginComponent,
     ComparePlayerComponent,
-    SafeUrlPipe
+    SafeUrlPipe,
+    StatsTimelineComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule,
     RouterOutlet,
     RouterModule,
-  
+    HttpClientModule
   ],
   providers: [provideHttpClient(), AuthGuard],
   bootstrap: [AppComponent],

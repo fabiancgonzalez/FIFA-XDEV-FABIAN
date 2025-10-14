@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # Backend service
+  backend:
+    build:
+      context: ./players-BackEnd
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=
+      - DB_NAME=fifa_local
+    depends_on:
+      - db
+    volumes:
+      - ./players-BackEnd:/app
+      - /app/node_modules
+    networks:
+      - fifa-network
+
+  # Frontend service
+  frontend:
+    build:
+      context: ./players-FrontEnd
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./players-FrontEnd:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - fifa-network
+
+  # Database service
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=fifa_local
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - fifa-network
+
+volumes:
+  mysql-data:
+
+networks:
+  fifa-network:
+    driver: bridge

@@ -6,9 +6,53 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ModuloHTTPService {
-  urlApi = 'http://localhost:3000/api/players/';
+  private baseUrl = 'http://localhost:3000/api';
+  urlApi = this.baseUrl + '/players/';
 
   constructor(private httpClient: HttpClient) {}
+
+  // Métodos para estadísticas
+  getAvailableSkills(): Observable<string[]> {
+    // Lista de habilidades que queremos mostrar
+    const skillsToShow = [
+      'overall',
+      'pace',
+      'shooting',
+      'passing',
+      'dribbling',
+      'defending',
+      'physic',
+      'attacking_crossing',
+      'attacking_finishing',
+      'attacking_heading_accuracy',
+      'attacking_short_passing',
+      'attacking_volleys',
+      'skill_ball_control',
+      'skill_dribbling',
+      'skill_long_passing',
+      'mentality_positioning',
+      'mentality_vision',
+      'power_shot_power',
+      'power_stamina',
+      'power_strength'
+    ];
+    return new Observable<string[]>(observer => {
+      observer.next(skillsToShow);
+      observer.complete();
+    });
+  }
+
+  getPlayerStats(playerId: number, skill: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/stats/historical`, {
+      params: { playerId: playerId.toString(), skill }
+    });
+  }
+
+  uploadStatsFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.httpClient.post(`${this.baseUrl}/stats/import`, formData);
+  }
 
   getPlayer(id: number): Observable<any> {
     return this.httpClient.get(`${this.urlApi}/${id}`);

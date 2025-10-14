@@ -45,6 +45,7 @@
             <th>Club</th>
             <th>Pie</th>
             <th>Edad</th>
+            <th>Acciones</th>
         </tr>
         <tr *ngFor="let player of resultados">
             <td>{{ player.long_name }}</td>
@@ -56,6 +57,11 @@
             <td>{{player.club_name}}</td>
             <td>{{player.preferred_foot}}</td>
             <td>{{player.age}}</td>
+            <td>
+              <button class="btn-stats" [routerLink]="['/players', player.id, 'stats']">
+                Ver Estadísticas
+              </button>
+            </td>
         </tr>
     </table>
 </div>
