@@ -4,6 +4,8 @@
   --text-secondary: #003366;
   --background-light: rgba(255, 255, 255, 0.95);
   --accent-color: #0056b3;
+  --background: url('../assets/fondo.jpg');
+  
 }
 
 html, body {
@@ -14,8 +16,13 @@ html, body {
 }
 
 body {
-  background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2)),
-              url('/assets/hard-rock-stadium-miami.jpg');
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+              url('../assets/fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  //background: url('/assets/fondo.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
