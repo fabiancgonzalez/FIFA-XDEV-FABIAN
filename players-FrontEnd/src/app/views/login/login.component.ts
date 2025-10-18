@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 
+   import * as CryptoJS from 'crypto-js';
+
 
 @Component({
   selector: 'app-login',
@@ -15,9 +17,13 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) { }
 
+
+ 
   onLogin() {
+
     this.authService.login(this.usuario, this.password).subscribe(
       (response: any) => {
+       // localStorage.removeItem('token');
         localStorage.setItem('token', response.token); // Guarda el token en localStorage
         this.mensaje = 'Inicio de sesión exitoso!';
         this.router.navigate(['/home'])

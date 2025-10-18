@@ -2,7 +2,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const bcrypt = require('bcryptjs');
 
-class User extends Model {
+class users extends Model {
   async comparePassword(candidatePassword) {
     const storedHash = this.password;
     
@@ -39,7 +39,7 @@ class User extends Model {
   }
 }
 
-User.init({
+users.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -68,7 +68,7 @@ User.init({
   }
 }, {
   sequelize,
-  modelName: 'User',
+  modelName: 'users',
   // Deshabilitar timestamps ya que la tabla no tiene las columnas createdAt y updatedAt
   timestamps: false,
   hooks: {
@@ -87,6 +87,6 @@ User.init({
   }
 });
 
-module.exports = User;
+module.exports = users;
 
 
