@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,20 +14,49 @@ export class AuthService {
   // Método para realizar el login
 
 
-  /*const hashedPassword = CryptoJS.MD5(this.password).toString();
-login(usuario: string, password: string): Observable<any> {
-  localStorage.removeItem('token');
-  return this.http.post(`${this.apiUrl}/auth/login`, { usuario, password });
-}
-
----------------------esta linea verrrrrrrr-------------
-    return this.http.post(`${this.apiUrl}/login`, { usuario, password: CryptoJS.MD5(password).toString() });
-
-  */
-
   login(usuario: string, password: string): Observable<any> {
-      localStorage.removeItem('token');
-    return this.http.post(`${this.apiUrl}/login`, { usuario, password });
+    // Primero eliminamos cualquier token existente
+    localStorage.removeItem('token');
+    
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+
+    const body = {
+      usuario,
+      password
+    };
+
+    console.log('Enviando solicitud de login:', {
+      url: `${this.apiUrl}/login`,
+      headers: headers.keys(),
+      bodyKeys: Object.keys(body)
+    });
+    
+    // Agregar withCredentials: true para asegurar que las cookies se envíen
+    return this.http.post(`${this.apiUrl}/login`, body, { 
+      headers, 
+      withCredentials: true,
+      observe: 'response'  // Esto nos permite ver la respuesta completa, incluyendo headers
+    }).pipe(
+      map((response: any) => {
+        console.log('Respuesta del servidor:', {
+          status: response.status,
+          headers: response.headers.keys(),
+          body: response.body
+        });
+        return response.body;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error en la petición de login:', {
+          status: error.status,
+          message: error.message,
+          error: error
+        });
+        throw error;
+      })
+    );
   }
 
 
