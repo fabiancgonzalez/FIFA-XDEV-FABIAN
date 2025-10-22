@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('../models/user');
-const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const router = express.Router();
 
@@ -30,9 +30,8 @@ router.post('/update-password', async (req, res) => {
       });
     }
 
-    // Generar hash de la nueva contraseña
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    // Generar hash MD5 de la nueva contraseña
+    const hashedPassword = crypto.createHash('md5').update(newPassword).digest('hex');
 
     // Actualizar contraseña
     await user.update({ password: hashedPassword });
@@ -40,7 +39,7 @@ router.post('/update-password', async (req, res) => {
     res.json({ 
       message: 'Contraseña actualizada exitosamente',
       hashInfo: {
-        format: 'bcrypt',
+        format: 'md5',
         length: hashedPassword.length,
         preview: hashedPassword.substring(0, 10) + '...'
       }

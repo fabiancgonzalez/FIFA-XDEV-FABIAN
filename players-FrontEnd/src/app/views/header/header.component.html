@@ -9,7 +9,10 @@
             <li><a href="/players/compare-player">Estadistica del jugador</a></li>
             <li><a href="/players/create-player">Crear Jugador</a></li>
             <li><a href="/players/edit-delete-player">Editar Jugador</a></li>
-
+            
+            <li class="logout-container"><app-logout></app-logout></li>
         </ul>
     </nav>
 </header>
+
+<app-user-management *ngIf="showUserManagement" [showForm]="showUserManagement" (closeForm)="showUserManagement = false"></app-user-management>

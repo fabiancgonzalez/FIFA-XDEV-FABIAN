@@ -9,6 +9,7 @@ import { LoginComponent } from './views/login/login.component';
 import { AuthGuard } from './auth.guard';
 import { ComparePlayerComponent } from './views/compare-player/compare-player.component';
 import { StatsTimelineComponent } from './views/stats-timeline/stats-timeline.component';
+import { UserManagementComponent } from './views/user-management/user-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path: 'players/edit-delete-player', component: EditPlayerComponent, canActivate: [AuthGuard] },
   {path: 'players/create-player', component: CreatePlayerComponent, canActivate: [AuthGuard]},
   {path: 'players/compare-player', component: ComparePlayerComponent, canActivate:[AuthGuard]},
-  {path: 'players/:id/stats', component: StatsTimelineComponent, canActivate:[AuthGuard]}
+  {path: 'players/:id/stats', component: StatsTimelineComponent, canActivate:[AuthGuard]},
+  {path: 'admin/users', component: UserManagementComponent, canActivate:[AuthGuard]}
 ];
 
 @NgModule({

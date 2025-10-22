@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const { Op } = require('sequelize');
 const User = require('../models/user');
-const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const router = express.Router();
 const secret = process.env.JWT_SECRET || 'claveSecretaQueSoloElServerConoce';
@@ -104,9 +104,8 @@ router.post('/reset-password', async (req, res) => {
       });
     }
 
-    // Generar nuevo hash de contraseña
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    // Generar hash MD5 de la contraseña
+    const hashedPassword = crypto.createHash('md5').update(newPassword).digest('hex');
 
     // Actualizar la contraseña en la base de datos
     await user.update({ password: hashedPassword });
@@ -135,7 +134,7 @@ router.get('/users', async (req, res) => {
       password: {
         length: user.password.length,
         preview: user.password.substring(0, 10) + '...',
-        format: user.password.startsWith('$2') ? 'bcrypt' : 'unknown'
+        format: 'md5'
       }
     }));
     res.json(safeUsers);
@@ -210,8 +209,21 @@ router.post('/rehash-password', async (req, res) => {
 // Ruta para registro de usuarios
 router.post('/register', async (req, res) => {
   try {
-    // Extraer usuario del campo 'usuario' en lugar de 'username' para mantener consistencia
-    const { usuario: username, password, email } = req.body;
+    // Extraer datos del cuerpo de la solicitud
+    const { username, email, password, role } = req.body;
+
+    console.log('Received registration request:', {
+      username,
+      email,
+      passwordLength: password ? password.length : 0,
+      role
+    });
+
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        message: 'Username, email y password son requeridos'
+      });
+    }
 
     // Verificar si el usuario ya existe
     const existingUser = await User.findOne({ 
@@ -229,29 +241,17 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    console.log('Attempting to create user:', {
+    console.log('Creating user:', {
       username,
-      email,
-      passwordLength: password ? password.length : 0
+      email
     });
 
-    // Hash the password manually to ensure it's done correctly
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    console.log('Creating user with hashed password:', {
-      username,
-      email,
-      passwordFormat: hashedPassword.startsWith('$2') ? 'bcrypt' : 'unknown',
-      hashedLength: hashedPassword.length
-    });
-
-    // Crear nuevo usuario
+    // Crear nuevo usuario - la contraseña será hasheada por el hook beforeCreate
     const user = await User.create({
       username,
-      password: hashedPassword, // Ya está hasheada
       email,
-      role: 'user'
+      password: password,
+      role: role || 'users'  // Si no se proporciona rol, será 'users' por defecto
     });
 
     console.log('User created successfully:', {
@@ -260,7 +260,7 @@ router.post('/register', async (req, res) => {
       hashedPasswordLength: user.password ? user.password.length : 0
     });
 
-    // Generar token
+    // Generar token JWT para el nuevo usuario
     const token = jwt.sign(
       { 
         id: user.id, 
@@ -271,13 +271,19 @@ router.post('/register', async (req, res) => {
       { expiresIn: '24h' }
     );
 
+    // Enviar respuesta exitosa
     res.status(201).json({
       message: 'Usuario creado exitosamente',
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role
+      },
       token
     });
-
   } catch (error) {
-    console.error('Error en registro:', error);
+    console.error('Error en el registro:', error);
     res.status(500).json({ 
       message: 'Error al crear el usuario',
       error: error.message 

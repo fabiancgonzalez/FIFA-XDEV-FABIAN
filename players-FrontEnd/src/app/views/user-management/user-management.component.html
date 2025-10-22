@@ -1,0 +1,100 @@
+<div class="user-management-container" [class.show]="showForm" (click)="closeForm.emit()">
+  <div class="form-container" (click)="$event.stopPropagation()">
+    <button class="close-button" (click)="closeForm.emit()">×</button>
+    <h2>{{ editingUser ? 'Editar Usuario' : 'Crear Usuario' }}</h2>
+    
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+      <div class="form-group">
+        <label for="username">Usuario:</label>
+        <input 
+          type="text" 
+          id="username" 
+          formControlName="username" 
+          [class.invalid]="userForm.get('username')?.invalid && userForm.get('username')?.touched"
+        >
+        <div class="error-message" *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched">
+          El nombre de usuario es requerido y debe tener al menos 3 caracteres
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          [class.invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+        >
+        <div class="error-message" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+          Ingrese un email válido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password"
+          [class.invalid]="userForm.get('password')?.invalid && userForm.get('password')?.touched"
+        >
+        <div class="error-message" *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+          La contraseña debe tener al menos 6 caracteres
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="role">Rol:</label>
+        <select id="role" formControlName="role">
+          <option value="user">Usuario</option>
+          <option value="admin">Administrador</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" [disabled]="userForm.invalid" class="submit-btn">
+          {{ editingUser ? 'Actualizar' : 'Crear' }}
+        </button>
+        <button type="button" class="cancel-btn" (click)="resetForm()" *ngIf="editingUser">
+          Cancelar
+        </button>
+      </div>
+    </form>
+
+    <div class="message-container">
+      <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
+    </div>
+  </div>
+
+  <div class="users-list-container" *ngIf="showUserList">
+    <h2>Lista de Usuarios</h2>
+    <div class="users-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role || 'user' }}</td>
+            <td class="actions">
+              <button class="edit-btn" (click)="editUser(user)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="delete-btn" (click)="deleteUser(user.id!)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

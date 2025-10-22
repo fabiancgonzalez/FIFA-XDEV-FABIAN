@@ -18,6 +18,8 @@ import { AuthGuard } from './auth.guard';
 import { ComparePlayerComponent } from './views/compare-player/compare-player.component';
 import { SafeUrlPipe } from './core/pipes/safe-url.pipe';
 import { StatsTimelineComponent } from './views/stats-timeline/stats-timeline.component';
+import { LogoutComponent } from './views/logout/logout.component';
+import { UserManagementComponent } from './views/user-management/user-management.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { StatsTimelineComponent } from './views/stats-timeline/stats-timeline.co
     LoginComponent,
     ComparePlayerComponent,
     SafeUrlPipe,
-    StatsTimelineComponent
+    StatsTimelineComponent,
+    LogoutComponent,
+    UserManagementComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,5 @@
+
+
 <div class="login">
     <h2>Iniciar Sesión</h2>
     <form (ngSubmit)="onLogin()">
@@ -10,7 +12,16 @@
         <input type="password" [(ngModel)]="password" name="password" class="input-contraseña" required />
       </div>
       <button type="submit">Iniciar Sesión</button>
+      <button type="button" (click)="createUser()">Crear Cuenta</button>
     </form>
-    <div *ngIf="mensaje" class="mensaje-error">{{ mensaje }}</div>
+    <div [class.mensaje-error]="mensaje && mensaje.includes('Error')" 
+         [class.mensaje-success]="mensaje && mensaje.includes('exitosamente')" 
+         *ngIf="mensaje">{{ mensaje }}</div>
   </div>
+
+<app-user-management *ngIf="showCreateUserForm" 
+                    [showForm]="showCreateUserForm"
+                    [showUserList]="false"
+                    (closeForm)="showCreateUserForm = false"
+                    (userCreated)="onCreateUserSuccess()">
   

@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const User = require('../models/user');
 
 const router = express.Router();
@@ -25,34 +25,17 @@ router.post('/verify-password', async (req, res) => {
 
     // Información de diagnóstico sobre la contraseña almacenada
     const passwordInfo = {
-      format: user.password.startsWith('$5f$') ? 'bcrypt' : 'unknown',
+      format: 'md5',
       length: user.password.length,
       preview: user.password.substring(0, 10) + '...'
     };
 
-    // Intentar verificar la contraseña
+    // Intentar verificar la contraseña con MD5
     try {
-      const isValid = await bcrypt.compare(password, user.password);
+      const md5Hash = crypto.createHash('md5').update(password).digest('hex');
+      const isValid = md5Hash === user.password;
       
-      // Si la contraseña es válida pero no está en formato bcrypt correcto, rehash
-      if (isValid && !user.password.startsWith('$5f$')) {
-        const salt = await bcrypt.genSalt(10);
-        const newHash = await bcrypt.hash(password, salt);
-        await user.update({ password: newHash });
-        
-        return res.json({
-          message: 'Contraseña verificada y actualizada',
-          wasRehashed: true,
-          originalFormat: passwordInfo,
-          newFormat: {
-            format: 'bcrypt',
-            length: newHash.length,
-            preview: newHash.substring(0, 10) + '...'
-          }
-        });
-      }
-
-      // Respuesta normal si la contraseña es válida
+      // Respuesta si la contraseña es válida
       if (isValid) {
         return res.json({
           message: 'Contraseña verificada correctamente',
@@ -104,7 +87,7 @@ router.post('/force-rehash', async (req, res) => {
 
     // Forzar nuevo hash con bcrypt
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = crypto.createHash('md5').update(password).digest('hex');
     
     // Guardar nuevo hash
     await user.update({ password: hashedPassword });
@@ -112,7 +95,7 @@ router.post('/force-rehash', async (req, res) => {
     res.json({
       message: 'Contraseña rehasheada exitosamente',
       newHashInfo: {
-        format: 'bcrypt',
+        format: 'md5',
         length: hashedPassword.length,
         preview: hashedPassword.substring(0, 10) + '...'
       }

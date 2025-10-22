@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { UserManagementComponent } from '../user-management/user-management.component';
+
 
    import * as CryptoJS from 'crypto-js';
+
 
 
 @Component({
@@ -14,8 +17,18 @@ export class LoginComponent {
   usuario: string = '';
   password: string = '';
   mensaje: string = '';
+  showCreateUserForm: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) { }
+
+  createUser() {
+    this.showCreateUserForm = true;
+  }
+
+  onCreateUserSuccess() {
+    this.showCreateUserForm = false;
+    this.mensaje = 'Usuario creado exitosamente. Por favor, inicia sesión.';
+  }
 
 
  

@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  showUserManagement: boolean = false;
 
+  toggleUserManagement() {
+    this.showUserManagement = !this.showUserManagement;
+  }
 }

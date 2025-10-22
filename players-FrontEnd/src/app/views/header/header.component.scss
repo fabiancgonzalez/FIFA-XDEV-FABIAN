@@ -34,24 +34,54 @@
 
 
 .nav-links {
-    list-style: none;
     display: flex;
-    gap: 20px; 
+    gap: 20px;
+    align-items: center;
     margin: 0;
     padding: 0;
-}
+    list-style: none;
 
-.nav-links li a {
+    .create-user-btn {
+        background-color: #ffffff;
+        color: #ff4d00;
+        border: 2px solid #ffffff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: transparent;
+            color: #ffffff;
+        }
+    }
+
+    a {
     color: white;
     text-decoration: none;
     font-size: 16px;
     font-weight: bold; 
-    transition: color 0.3s;
+    transition: all 0.3s ease;
     padding: 5px 10px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &.admin-link {
+      background-color: rgba(0, 0, 0, 0.2);
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    }
 }
 
-.nav-links li a:hover {
-    color: #ffdd57; 
+.logout-container {
+    margin-left: auto;
+    padding-left: 20px;
 }
 
 @media (max-width: 768px) {
@@ -68,4 +98,5 @@
         flex-direction: column;
         gap: 10px; 
     }
+}
 }
