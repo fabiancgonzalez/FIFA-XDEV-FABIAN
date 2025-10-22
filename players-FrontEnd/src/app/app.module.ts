@@ -42,7 +42,10 @@ import { StatsTimelineComponent } from './views/stats-timeline/stats-timeline.co
     RouterModule,
     HttpClientModule
   ],
-  providers: [provideHttpClient(), AuthGuard],
+  providers: [
+    ModuloHTTPService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

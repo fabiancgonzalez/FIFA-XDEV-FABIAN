@@ -1,0 +1,1026 @@
+import { Component, OnInit } from '@angular/core';
+import { ModuloHTTPService } from '../../core/services/modulo-http.service';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+
+
+interface Player {interface Player {
+
+  id: number;  id: number;
+
+  long_name: string;  long_name: string;
+
+  nationality_name: string;  nationality_name: string;
+
+  overall: number;  overall: number;
+
+  age: number;  age: number;
+
+  club_name: string;  club_name: string;
+
+  player_positions: string;  player_positions: string;
+
+  fifa_version?: string;  fifa_version?: string;
+
+  fifa_update?: string;  fifa_update?: string;
+
+  player_face_url?: string;  player_face_url?: string;
+
+}}
+
+
+
+interface ApiResponse {interface ApiResponse {
+
+  player?: Player;  player?: Player;
+
+  message?: string;  message?: string;
+
+}}
+
+
+
+@Component({@Component({
+
+  selector: 'app-edit-player',  selector: 'app-edit-player',
+
+  templateUrl: './edit-player.component.html',  templateUrl: './edit-player.component.html',
+
+  styleUrls: ['./edit-player.component.scss']  styleUrl: './edit-player.component.scss'
+
+})})
+
+export class EditPlayerComponent implements OnInit {export class EditPlayerComponent implements OnInit {
+
+  editPlayerForm: FormGroup = this.fb.group({  editPlayerForm!: FormGroup;
+
+    long_name: ['', [Validators.required, Validators.minLength(2)]],  resultados: Player[] = [];
+
+    nationality_name: ['', [Validators.required, Validators.minLength(2)]],  selectedPlayerId: number | null = null;
+
+    overall: ['', [Validators.required, Validators.min(0), Validators.max(100), Validators.pattern('^[0-9]+$')]],  token: string | null = null;
+
+    age: ['', [Validators.required, Validators.min(16), Validators.max(60), Validators.pattern('^[0-9]+$')]],  busquedaJugador: string = '';
+
+    club_name: ['', Validators.required],  limiteDeJugadores: number = 10;
+
+    player_positions: ['', Validators.required]  busquedaRealizada: boolean = false;
+
+  });  errorMessage: string | null = null;
+
+
+
+  resultados: Player[] = [];  constructor(
+
+  selectedPlayerId: number | null = null;    private moduloHttpService: ModuloHTTPService,
+
+  token: string | null = null;    private fb: FormBuilder,
+
+  busquedaJugador: string = '';    private router: Router
+
+  limiteDeJugadores: number = 10;  ) {}
+
+  busquedaRealizada: boolean = false;
+
+  errorMessage: string | null = null;  ngOnInit(): void {
+
+    this.token = localStorage.getItem('token');
+
+  constructor(    if (!this.token) {
+
+    private moduloHttpService: ModuloHTTPService,      alert('Por favor inicie sesión para continuar');
+
+    private fb: FormBuilder,      this.router.navigate(['/login']);
+
+    private router: Router      return;
+
+  ) {}    }
+
+    this.initForm();
+
+  ngOnInit(): void {  }
+
+    this.token = localStorage.getItem('token');
+
+    if (!this.token) {  private initForm(): void {
+
+      alert('Por favor inicie sesión para continuar');    this.editPlayerForm = this.fb.group({
+
+      this.router.navigate(['/login']);      long_name: ['', [Validators.required, Validators.minLength(2)]],
+
+    }      nationality_name: ['', [Validators.required, Validators.minLength(2)]],
+
+  }      overall: ['', [Validators.required, Validators.min(0), Validators.max(100), Validators.pattern('^[0-9]+$')]],
+
+      age: ['', [Validators.required, Validators.min(16), Validators.max(60), Validators.pattern('^[0-9]+$')]],
+
+  private showFormErrors(): void {      club_name: ['', Validators.required],
+
+    Object.keys(this.editPlayerForm.controls).forEach(key => {      player_positions: ['', Validators.required]
+
+      const control = this.editPlayerForm.get(key);    });
+
+      if (control?.invalid) {  }
+
+        control.markAsTouched();
+
+      }  private showFormErrors(): void {
+
+    });    Object.keys(this.editPlayerForm.controls).forEach(key => {
+
+          const control = this.editPlayerForm.get(key);
+
+    let errorMessage = 'Por favor, corrija los siguientes errores:\n';      if (control?.invalid) {
+
+    const formErrors = {        control.markAsTouched();
+
+      long_name: '- El nombre es requerido y debe tener al menos 2 caracteres\n',      }
+
+      nationality_name: '- La nacionalidad es requerida y debe tener al menos 2 caracteres\n',    });
+
+      overall: '- La valoración debe ser un número entre 0 y 100\n',    
+
+      age: '- La edad debe ser un número entre 16 y 60\n',    let errorMessage = 'Por favor, corrija los siguientes errores:\n';
+
+      club_name: '- El club es requerido\n',    const formErrors = {
+
+      player_positions: '- La posición es requerida\n'      long_name: '- El nombre es requerido y debe tener al menos 2 caracteres\n',
+
+    };      nationality_name: '- La nacionalidad es requerida y debe tener al menos 2 caracteres\n',
+
+      overall: '- La valoración debe ser un número entre 0 y 100\n',
+
+    Object.entries(formErrors).forEach(([field, message]) => {      age: '- La edad debe ser un número entre 16 y 60\n',
+
+      if (this.editPlayerForm.get(field)?.invalid) {      club_name: '- El club es requerido\n',
+
+        errorMessage += message;      player_positions: '- La posición es requerida\n'
+
+      }    };
+
+    });
+
+        Object.entries(formErrors).forEach(([field, message]) => {
+
+    alert(errorMessage);      if (this.editPlayerForm.get(field)?.invalid) {
+
+  }        errorMessage += message;
+
+      }
+
+  private checkToken(): boolean {    });
+
+    if (!this.token) {    
+
+      alert('No hay token de autenticación. Por favor, inicie sesión nuevamente.');    alert(errorMessage);
+
+      this.router.navigate(['/login']);  }
+
+      return false;
+
+    }  private checkToken(): boolean {
+
+    return true;    if (!this.token) {
+
+  }      alert('No hay token de autenticación. Por favor, inicie sesión nuevamente.');
+
+      this.router.navigate(['/login']);
+
+  private handleSessionExpired(): void {      return false;
+
+    this.token = null;    }
+
+    localStorage.removeItem('token');    return true;
+
+    alert('Sesión expirada. Por favor, inicie sesión nuevamente.');  }
+
+    this.router.navigate(['/login']);
+
+  }  private handleSessionExpired(): void {
+
+    this.token = null;
+
+  private handleError(action: string, err: any): void {    localStorage.removeItem('token');
+
+    console.error(`Error al ${action}:`, err);    alert('Sesión expirada. Por favor, inicie sesión nuevamente.');
+
+    if (err.status === 401) {    this.router.navigate(['/login']);
+
+      this.handleSessionExpired();  }
+
+    } else if (err.status === 400) {
+
+      alert(`Error de validación: ${err.error?.details || 'Los datos ingresados son inválidos'}`);  private handleError(action: string, err: any): void {
+
+    } else if (err.status === 404) {    console.error(`Error al ${action}:`, err);
+
+      alert('El jugador no fue encontrado. Por favor, refresque la página e intente de nuevo.');    if (err.status === 401) {
+
+    } else {      this.handleSessionExpired();
+
+      alert(`Error al ${action}: ${err.error?.message || 'Error en el servidor'}`);    } else if (err.status === 400) {
+
+    }      alert(`Error de validación: ${err.error?.details || 'Los datos ingresados son inválidos'}`);
+
+  }    } else if (err.status === 404) {
+
+      alert('El jugador no fue encontrado. Por favor, refresque la página e intente de nuevo.');
+
+  buscarJugador(): void {    } else {
+
+    if (!this.checkToken() || !this.busquedaJugador.trim()) {      alert(`Error al ${action}: ${err.error?.message || 'Error en el servidor'}`);
+
+      alert('Por favor ingrese un nombre para buscar');    }
+
+      return;  }
+
+    }
+
+  buscarJugador(): void {
+
+    if (!this.token) return;    if (!this.checkToken() || !this.busquedaJugador.trim()) {
+
+      alert('Por favor ingrese un nombre para buscar');
+
+    this.moduloHttpService.getPlayerByName(this.busquedaJugador, this.token, this.limiteDeJugadores).subscribe({      return;
+
+      next: (players: Player[]) => {    }
+
+        this.resultados = players;
+
+        this.busquedaRealizada = true;    this.moduloHttpService.getPlayerByName(this.busquedaJugador, this.token, this.limiteDeJugadores).subscribe({
+
+        this.errorMessage = players.length === 0 ? 'No se encontraron jugadores con ese nombre' : null;      next: (players: Player[]) => {
+
+      },        this.resultados = players;
+
+      error: (err) => {        this.busquedaRealizada = true;
+
+        this.resultados = [];        this.errorMessage = players.length === 0 ? 'No se encontraron jugadores con ese nombre' : null;
+
+        this.busquedaRealizada = true;      },
+
+        this.errorMessage = 'Error al buscar jugadores';      error: (err) => {
+
+        this.handleError('buscar jugadores', err);        this.resultados = [];
+
+      }        this.busquedaRealizada = true;
+
+    });        this.errorMessage = 'Error al buscar jugadores';
+
+  }        this.handleError('buscar jugadores', err);
+
+      }
+
+  seleccionarJugador(player: Player): void {    });
+
+    if (!player) return;  }
+
+    
+
+    this.selectedPlayerId = player.id;  seleccionarJugador(player: Player): void {
+
+    this.editPlayerForm.patchValue({    if (!player) return;
+
+      long_name: player.long_name?.trim() || '',    
+
+      nationality_name: player.nationality_name?.trim() || '',    this.selectedPlayerId = player.id;
+
+      overall: player.overall || 0,    this.editPlayerForm.patchValue({
+
+      age: player.age || 18,      long_name: player.long_name?.trim() || '',
+
+      club_name: player.club_name?.trim() || '',      nationality_name: player.nationality_name?.trim() || '',
+
+      player_positions: player.player_positions?.trim() || ''      overall: player.overall || 0,
+
+    });      age: player.age || 18,
+
+  }      club_name: player.club_name?.trim() || '',
+
+      player_positions: player.player_positions?.trim() || ''
+
+  guardarCambios(): void {    });
+
+    if (!this.checkToken() || !this.selectedPlayerId || !this.editPlayerForm.valid) {  }
+
+      this.showFormErrors();
+
+      return;  guardarCambios(): void {
+
+    }    if (!this.checkToken() || !this.selectedPlayerId || !this.editPlayerForm.valid) {
+
+      this.showFormErrors();
+
+    try {      return;
+
+      const formValues = this.editPlayerForm.value;    }
+
+      const overall = Number(formValues.overall);
+
+      const age = Number(formValues.age);    try {
+
+      const formValues = this.editPlayerForm.value;
+
+      if (isNaN(overall) || overall < 0 || overall > 100 || isNaN(age) || age < 16 || age > 60) {      const overall = Number(formValues.overall);
+
+        alert('Por favor verifique los valores numéricos ingresados');      const age = Number(formValues.age);
+
+        return;
+
+      }      if (isNaN(overall) || overall < 0 || overall > 100 || isNaN(age) || age < 16 || age > 60) {
+
+        alert('Por favor verifique los valores numéricos ingresados');
+
+      const playerData: Partial<Player> = {        return;
+
+        long_name: formValues.long_name?.trim(),      }
+
+        nationality_name: formValues.nationality_name?.trim(),
+
+        overall: overall,      const playerData: Partial<Player> = {
+
+        age: age,        long_name: formValues.long_name?.trim(),
+
+        club_name: formValues.club_name?.trim(),        nationality_name: formValues.nationality_name?.trim(),
+
+        player_positions: formValues.player_positions?.trim()        overall: overall,
+
+      };        age: age,
+
+        club_name: formValues.club_name?.trim(),
+
+      if (Object.values(playerData).some(val => val === '' || val === undefined)) {        player_positions: formValues.player_positions?.trim()
+
+        alert('Por favor, complete todos los campos sin dejar espacios en blanco.');      };
+
+        return;
+
+      }      if (Object.values(playerData).some(val => val === '' || val === undefined)) {
+
+        alert('Por favor, complete todos los campos sin dejar espacios en blanco.');
+
+      if (!this.token) {        return;
+
+        this.handleSessionExpired();      }
+
+        return;
+
+      }      if (!this.token) {
+
+        this.handleSessionExpired();
+
+      this.moduloHttpService.updatePlayer(this.selectedPlayerId, playerData, this.token).subscribe({        return;
+
+        next: (response: ApiResponse) => {      }
+
+          if (response?.player) {
+
+            this.resultados = this.resultados.map(p =>       this.moduloHttpService.updatePlayer(this.selectedPlayerId, playerData, this.token).subscribe({
+
+              p.id === this.selectedPlayerId ? { ...p, ...response.player } : p        next: (response: ApiResponse) => {
+
+            );          if (response?.player) {
+
+            alert('Jugador actualizado con éxito');            this.resultados = this.resultados.map(p => 
+
+            this.resetForm();              p.id === this.selectedPlayerId ? { ...p, ...response.player } : p
+
+            this.buscarJugador();            );
+
+          } else {            alert('Jugador actualizado con éxito');
+
+            alert('La actualización fue exitosa pero no se recibieron los datos actualizados');            this.resetForm();
+
+          }            this.buscarJugador();
+
+        },          } else {
+
+        error: (err) => this.handleError('actualizar jugador', err)            alert('La actualización fue exitosa pero no se recibieron los datos actualizados');
+
+      });          }
+
+    } catch (error) {        },
+
+      console.error('Error al procesar los datos:', error);        error: (err) => this.handleError('actualizar jugador', err)
+
+      alert('Error al procesar los datos del formulario');      });
+
+    }    } catch (error) {
+
+  }      console.error('Error al procesar los datos:', error);
+
+      alert('Error al procesar los datos del formulario');
+
+  borrarJugador(player: Player): void {    }
+
+    if (!this.checkToken() || !this.token || !player) return;  }
+
+
+
+    if (window.confirm(`¿Está seguro que desea eliminar al jugador ${player.long_name}?`)) {  borrarJugador(player: Player): void {
+
+      this.moduloHttpService.deletePlayer(player.id, this.token).subscribe({    if (!this.checkToken() || !this.token || !player) return;
+
+        next: () => {
+
+          alert('El jugador fue eliminado con éxito');    if (window.confirm(`¿Está seguro que desea eliminar al jugador ${player.long_name}?`)) {
+
+          this.resultados = this.resultados.filter(p => p.id !== player.id);      this.moduloHttpService.deletePlayer(player.id, this.token).subscribe({
+
+          if (this.selectedPlayerId === player.id) {        next: () => {
+
+            this.resetForm();          alert('El jugador fue eliminado con éxito');
+
+          }          this.resultados = this.resultados.filter(p => p.id !== player.id);
+
+        },          if (this.selectedPlayerId === player.id) {
+
+        error: (err) => this.handleError('eliminar jugador', err)            this.resetForm();
+
+      });          }
+
+    }        },
+
+  }        error: (err) => this.handleError('eliminar jugador', err)
+
+      });
+
+  private resetForm(): void {    }
+
+    this.editPlayerForm.reset();  }
+
+    this.selectedPlayerId = null;
+
+    this.busquedaJugador = '';  private resetForm(): void {
+
+    Object.keys(this.editPlayerForm.controls).forEach(key => {    this.editPlayerForm.reset();
+
+      this.editPlayerForm.get(key)?.setErrors(null);    this.selectedPlayerId = null;
+
+    });    this.busquedaJugador = '';
+
+  }    Object.keys(this.editPlayerForm.controls).forEach(key => {
+
+}      this.editPlayerForm.get(key)?.setErrors(null);
+    });
+  }
+}
+import { ModuloHTTPService } from '../../core/services/modulo-http.service';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+interface Player {
+  id: number;
+  long_name: string;
+  nationality_name: string;
+  overall: number;
+  age: number;
+  club_name: string;
+  player_positions: string;
+  fifa_version?: string;
+  fifa_update?: string;
+  player_face_url?: string;
+}
+
+interface ApiResponse {
+  player?: Player;
+  message?: string;
+}
+
+@Component({
+  selector: 'app-edit-player',
+  templateUrl: './edit-player.component.html',
+  styleUrl: './edit-player.component.scss'
+})
+export class EditPlayerComponent implements OnInit {
+  editPlayerForm!: FormGroup;
+  resultados: Player[] = [];
+  selectedPlayerId: number | null = null;
+  token: string | null = null;
+  busquedaJugador: string = '';
+  limiteDeJugadores: number = 10;
+  busquedaRealizada: boolean = false;
+  errorMessage: string | null = null;
+
+  constructor(
+    private moduloHttpService: ModuloHTTPService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    const storedToken = localStorage.getItem('token');
+    if (!storedToken) {
+      alert('Por favor inicie sesión para continuar');
+      this.router.navigate(['/login']);
+    } else {
+      this.token = storedToken;
+    }
+    this.initForm();
+  }
+
+  private initForm(): void {
+    this.editPlayerForm = this.fb.group({
+      long_name: ['', [Validators.required, Validators.minLength(2)]],
+      nationality_name: ['', [Validators.required, Validators.minLength(2)]],
+      overall: ['', [
+        Validators.required, 
+        Validators.min(0), 
+        Validators.max(100),
+        Validators.pattern('^[0-9]+$')
+      ]],
+      age: ['', [
+        Validators.required, 
+        Validators.min(16), 
+        Validators.max(60),
+        Validators.pattern('^[0-9]+$')
+      ]],
+      club_name: ['', Validators.required],
+      player_positions: ['', Validators.required],
+    });
+  }
+
+  private checkToken(): boolean {
+    if (!this.token) {
+      alert('No hay token de autenticación. Por favor, inicie sesión nuevamente.');
+      this.router.navigate(['/login']);
+      return false;
+    }
+    return true;
+  }
+
+  private handleSessionExpired(): void {
+    this.token = null;
+    localStorage.removeItem('token');
+    alert('Sesión expirada. Por favor, inicie sesión nuevamente.');
+    this.router.navigate(['/login']);
+  }
+
+  private handleError(action: string, err: any): void {
+    console.error(`Error al ${action}:`, err);
+    if (err.status === 401) {
+      this.handleSessionExpired();
+    } else if (err.status === 400) {
+      alert(`Error de validación: ${err.error?.details || 'Los datos ingresados son inválidos'}`);
+    } else if (err.status === 404) {
+      alert(`El jugador no fue encontrado. Por favor, refresque la página e intente de nuevo.`);
+    } else {
+      alert(`Error al ${action}: ${err.error?.details || err.error?.message || 'Error en el servidor. Por favor, inténtelo de nuevo.'}`);
+    }
+  }
+
+  private showFormErrors(): void {
+    // Marcar campos inválidos
+    Object.keys(this.editPlayerForm.controls).forEach(key => {
+      const control = this.editPlayerForm.get(key);
+      if (control?.invalid) {
+        control.markAsTouched();
+        console.log(`Campo ${key} inválido:`, control.errors);
+      }
+    });
+    
+    // Construir mensaje de error detallado
+    let errorMessage = 'Por favor, corrija los siguientes errores:\n';
+    const formErrors = {
+      long_name: '- El nombre es requerido y debe tener al menos 2 caracteres\n',
+      nationality_name: '- La nacionalidad es requerida y debe tener al menos 2 caracteres\n',
+      overall: '- La valoración debe ser un número entre 0 y 100\n',
+      age: '- La edad debe ser un número entre 16 y 60\n',
+      club_name: '- El club es requerido\n',
+      player_positions: '- La posición es requerida\n'
+    };
+
+    Object.entries(formErrors).forEach(([field, message]) => {
+      if (this.editPlayerForm.get(field)?.invalid) {
+        errorMessage += message;
+      }
+    });
+    
+    alert(errorMessage);
+  }
+
+  buscarJugador(): void {
+    if (!this.checkToken()) return;
+
+    if (!this.busquedaJugador.trim()) {
+      alert('Por favor ingrese un nombre para buscar');
+      return;
+    }
+
+    this.moduloHttpService.getPlayerByName(this.busquedaJugador, this.token || '', this.limiteDeJugadores).subscribe({
+      next: (players: Player[]) => {
+        this.resultados = players;
+        this.busquedaRealizada = true;
+        
+        if (players.length === 0) {
+          this.errorMessage = 'No se encontraron jugadores con ese nombre';
+        } else {
+          this.errorMessage = null;
+        }
+      },
+      error: (err: any) => {
+        this.resultados = [];
+        this.busquedaRealizada = true;
+        console.error('Error al buscar jugadores:', err);
+        
+        if (err.status === 401) {
+          this.handleSessionExpired();
+        } else {
+          this.errorMessage = 'Error al buscar jugadores. Por favor intente de nuevo.';
+        }
+      }
+    });
+  }
+
+  seleccionarJugador(player: Player): void {
+    if (!player) return;
+    
+    this.selectedPlayerId = player.id;
+    
+    // Reset form before patching new values
+    this.editPlayerForm.reset();
+    
+    this.editPlayerForm.patchValue({
+      long_name: player.long_name?.trim() || '',
+      nationality_name: player.nationality_name?.trim() || '',
+      overall: player.overall || 0,
+      age: player.age || 18,
+      club_name: player.club_name?.trim() || '',
+      player_positions: player.player_positions?.trim() || '',
+    });
+  }
+
+  guardarCambios(): void {
+    if (!this.checkToken()) return;
+
+    // Verificar selección de jugador
+    if (!this.selectedPlayerId) {
+      alert('No se ha seleccionado ningún jugador para editar.');
+      return;
+    }
+
+    // Validar formulario
+    if (!this.editPlayerForm.valid) {
+      this.showFormErrors();
+      return;
+    }
+
+    try {
+      // Obtener y validar campos numéricos
+      const overall = Number(this.editPlayerForm.get('overall')?.value);
+      const age = Number(this.editPlayerForm.get('age')?.value);
+
+      if (isNaN(overall) || overall < 0 || overall > 100) {
+        alert('La valoración debe ser un número entre 0 y 100');
+        return;
+      }
+
+      if (isNaN(age) || age < 16 || age > 60) {
+        alert('La edad debe ser un número entre 16 y 60');
+        return;
+      }
+
+      // Preparar datos del jugador
+      const playerData: Partial<Player> = {
+        long_name: this.editPlayerForm.get('long_name')?.value?.trim(),
+        nationality_name: this.editPlayerForm.get('nationality_name')?.value?.trim(),
+        overall: overall,
+        age: age,
+        club_name: this.editPlayerForm.get('club_name')?.value?.trim(),
+        player_positions: this.editPlayerForm.get('player_positions')?.value?.trim()
+      };
+
+      // Validar que no haya campos vacíos después del trim
+      if (Object.values(playerData).some(val => val === '')) {
+        alert('Por favor, complete todos los campos sin dejar espacios en blanco.');
+        return;
+      }
+
+      // Asegurarse de que el token existe
+      if (!this.token) {
+        this.handleSessionExpired();
+        return;
+      }
+
+      // Enviar actualización al servidor
+      this.moduloHttpService.updatePlayer(this.selectedPlayerId, playerData, this.token).subscribe({
+        next: (response) => {
+          console.log('Respuesta del servidor:', response);
+          
+          if (response && response.player) {
+            // Actualizar el jugador en la lista de resultados
+            this.resultados = this.resultados.map(player => 
+              player.id === this.selectedPlayerId 
+                ? { ...player, ...response.player }
+                : player
+            );
+            
+            alert('Jugador actualizado con éxito');
+            
+            // Limpiar el formulario y estado
+            this.resetForm();
+            
+            // Recargar la lista de jugadores
+            this.buscarJugador();
+          } else {
+            alert('La actualización fue exitosa pero no se recibieron los datos actualizados.');
+          }
+        },
+        error: (err) => this.handleError('actualizar jugador', err)
+      });
+    } catch (error) {
+      console.error('Error al procesar los datos:', error);
+      alert('Error al procesar los datos del formulario. Por favor, verifique los valores ingresados.');
+    }
+  }
+
+  private resetForm(): void {
+    this.editPlayerForm.reset();
+    this.selectedPlayerId = null;
+    this.busquedaJugador = '';
+    Object.keys(this.editPlayerForm.controls).forEach(key => {
+      this.editPlayerForm.get(key)?.setErrors(null);
+    });
+  }
+
+  borrarJugador(player: Player): void {
+    if (!this.checkToken() || !this.token || !player) return;
+
+    if (window.confirm(`¿Está seguro que desea eliminar al jugador ${player.long_name}?`)) {
+      this.moduloHttpService.deletePlayer(player.id, this.token).subscribe({
+        next: () => {
+          alert('El jugador fue eliminado con éxito');
+          this.resultados = this.resultados.filter(p => p.id !== player.id);
+          
+          if (this.selectedPlayerId === player.id) {
+            this.resetForm();
+          }
+        },
+        error: (err: any) => this.handleError('eliminar jugador', err)
+      });
+    }
+  }
+}
+
+  constructor(
+    private moduloHttpService: ModuloHTTPService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    const storedToken = localStorage.getItem('token');
+    if (!storedToken) {
+      alert('Por favor inicie sesión para continuar');
+      this.router.navigate(['/login']);
+    } else {
+      this.token = storedToken;
+    }
+    this.initForm();
+  }
+
+  private initForm(): void {
+    this.editPlayerForm = this.fb.group({
+      long_name: ['', [Validators.required, Validators.minLength(2)]],
+      nationality_name: ['', [Validators.required, Validators.minLength(2)]],
+      overall: ['', [
+        Validators.required, 
+        Validators.min(0), 
+        Validators.max(100),
+        Validators.pattern('^[0-9]+$')
+      ]],
+      age: ['', [
+        Validators.required, 
+        Validators.min(16), 
+        Validators.max(60),
+        Validators.pattern('^[0-9]+$')
+      ]],
+      club_name: ['', Validators.required],
+      player_positions: ['', Validators.required],
+    });
+  }
+
+  private checkToken(): boolean {
+    if (!this.token) {
+      alert('No hay token de autenticación. Por favor, inicie sesión nuevamente.');
+      this.router.navigate(['/login']);
+      return false;
+    }
+    return true;
+  }
+
+  private handleSessionExpired(): void {
+    this.token = '';
+    localStorage.removeItem('token');
+    alert('Sesión expirada. Por favor, inicie sesión nuevamente.');
+    this.router.navigate(['/login']);
+  }
+
+  private handleError(action: string, err: any): void {
+    console.error(`Error al ${action}:`, err);
+    if (err.status === 401) {
+      this.handleSessionExpired();
+    } else if (err.status === 400) {
+      alert(`Error de validación: ${err.error?.details || 'Los datos ingresados son inválidos'}`);
+    } else if (err.status === 404) {
+      alert(`El jugador no fue encontrado. Por favor, refresque la página e intente de nuevo.`);
+    } else {
+      alert(`Error al ${action}: ${err.error?.details || err.error?.message || 'Error en el servidor. Por favor, inténtelo de nuevo.'}`);
+    }
+  }
+
+  private showFormErrors(): void {
+    // Marcar campos inválidos
+    Object.keys(this.editPlayerForm.controls).forEach(key => {
+      const control = this.editPlayerForm.get(key);
+      if (control?.invalid) {
+        control.markAsTouched();
+        console.log(`Campo ${key} inválido:`, control.errors);
+      }
+    });
+    
+    // Construir mensaje de error detallado
+    let errorMessage = 'Por favor, corrija los siguientes errores:\n';
+    const formErrors = {
+      long_name: '- El nombre es requerido y debe tener al menos 2 caracteres\n',
+      nationality_name: '- La nacionalidad es requerida y debe tener al menos 2 caracteres\n',
+      overall: '- La valoración debe ser un número entre 0 y 100\n',
+      age: '- La edad debe ser un número entre 16 y 60\n',
+      club_name: '- El club es requerido\n',
+      player_positions: '- La posición es requerida\n'
+    };
+
+    Object.entries(formErrors).forEach(([field, message]) => {
+      if (this.editPlayerForm.get(field)?.invalid) {
+        errorMessage += message;
+      }
+    });
+    
+    alert(errorMessage);
+  }
+
+  buscarJugador(): void {
+    if (!this.checkToken()) return;
+
+    if (!this.busquedaJugador.trim()) {
+      alert('Por favor ingrese un nombre para buscar');
+      return;
+    }
+
+    this.moduloHttpService.getPlayerByName(this.busquedaJugador, this.token || '', this.limiteDeJugadores).subscribe({
+      next: (players: Player[]) => {
+        this.resultados = players;
+        this.busquedaRealizada = true;
+        
+        if (players.length === 0) {
+          this.errorMessage = 'No se encontraron jugadores con ese nombre';
+        } else {
+          this.errorMessage = null;
+        }
+      },
+      error: (err: any) => {
+        this.resultados = [];
+        this.busquedaRealizada = true;
+        console.error('Error al buscar jugadores:', err);
+        
+        if (err.status === 401) {
+          this.handleSessionExpired();
+        } else {
+          this.errorMessage = 'Error al buscar jugadores. Por favor intente de nuevo.';
+        }
+      }
+    });
+  }
+
+  seleccionarJugador(player: Player): void {
+    if (!player) return;
+    
+    this.selectedPlayerId = player.id;
+    
+    // Reset form before patching new values
+    this.editPlayerForm.reset();
+    
+    this.editPlayerForm.patchValue({
+      long_name: player.long_name?.trim() || '',
+      nationality_name: player.nationality_name?.trim() || '',
+      overall: player.overall || 0,
+      age: player.age || 18,
+      club_name: player.club_name?.trim() || '',
+      player_positions: player.player_positions?.trim() || '',
+    });
+  }
+
+  guardarCambios(): void {
+    if (!this.checkToken()) return;
+
+    // Verificar selección de jugador
+    if (!this.selectedPlayerId) {
+      alert('No se ha seleccionado ningún jugador para editar.');
+      return;
+    }
+
+    // Validar formulario
+    if (!this.editPlayerForm.valid) {
+      this.showFormErrors();
+      return;
+    }
+
+    try {
+      // Obtener y validar campos numéricos
+      const overall = Number(this.editPlayerForm.get('overall')?.value);
+      const age = Number(this.editPlayerForm.get('age')?.value);
+
+      if (isNaN(overall) || overall < 0 || overall > 100) {
+        alert('La valoración debe ser un número entre 0 y 100');
+        return;
+      }
+
+      if (isNaN(age) || age < 16 || age > 60) {
+        alert('La edad debe ser un número entre 16 y 60');
+        return;
+      }
+
+      // Preparar datos del jugador
+      const playerData: Partial<Player> = {
+        long_name: this.editPlayerForm.get('long_name')?.value?.trim(),
+        nationality_name: this.editPlayerForm.get('nationality_name')?.value?.trim(),
+        overall: overall,
+        age: age,
+        club_name: this.editPlayerForm.get('club_name')?.value?.trim(),
+        player_positions: this.editPlayerForm.get('player_positions')?.value?.trim()
+      };
+
+      // Validar que no haya campos vacíos después del trim
+      if (Object.values(playerData).some(val => val === '')) {
+        alert('Por favor, complete todos los campos sin dejar espacios en blanco.');
+        return;
+      }
+
+      // Asegurarse de que el token existe
+      if (!this.token) {
+        this.handleSessionExpired();
+        return;
+      }
+
+      // Enviar actualización al servidor
+      this.moduloHttpService.updatePlayer(this.selectedPlayerId, playerData, this.token).subscribe({
+        next: (response) => {
+          console.log('Respuesta del servidor:', response);
+          
+          if (response && response.player) {
+            // Actualizar el jugador en la lista de resultados
+            this.resultados = this.resultados.map(player => 
+              player.id === this.selectedPlayerId 
+                ? { ...player, ...response.player }
+                : player
+            );
+            
+            alert('Jugador actualizado con éxito');
+            
+            // Limpiar el formulario y estado
+            this.resetForm();
+            
+            // Recargar la lista de jugadores
+            this.buscarJugador();
+          } else {
+            alert('La actualización fue exitosa pero no se recibieron los datos actualizados.');
+          }
+        },
+        error: (err) => this.handleError('actualizar jugador', err)
+      });
+    } catch (error) {
+      console.error('Error al procesar los datos:', error);
+      alert('Error al procesar los datos del formulario. Por favor, verifique los valores ingresados.');
+    }
+  }
+
+  private resetForm(): void {
+    this.editPlayerForm.reset();
+    this.selectedPlayerId = null;
+    this.busquedaJugador = '';
+    Object.keys(this.editPlayerForm.controls).forEach(key => {
+      this.editPlayerForm.get(key)?.setErrors(null);
+    });
+  }
+
+  borrarJugador(player: Player): void {
+    if (!this.checkToken() || !this.token || !player) return;
+
+    if (window.confirm(`¿Está seguro que desea eliminar al jugador ${player.long_name}?`)) {
+      this.moduloHttpService.deletePlayer(player.id, this.token).subscribe({
+        next: () => {
+          alert('El jugador fue eliminado con éxito');
+          this.resultados = this.resultados.filter(p => p.id !== player.id);
+          
+          if (this.selectedPlayerId === player.id) {
+            this.resetForm();
+          }
+        },
+        error: (err: any) => this.handleError('eliminar jugador', err)
+      });
+    }
+  }
+}
+}

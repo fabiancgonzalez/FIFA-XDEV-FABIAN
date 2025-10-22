@@ -431,7 +431,113 @@ module.exports = {
   getPlayersByPosition,
   getPlayersByOverall,
   getOnePlayerByName,
-  putPlayerById,
+  putPlayerById: async (req, res) => {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    try {
+      console.log('Intentando actualizar jugador:', {
+        id: id,
+        updateData: updateData
+      });
+
+      // Verificar si el jugador existe
+      const playerToUpdate = await player.findByPk(id);
+      
+      if (!playerToUpdate) {
+        console.log('Jugador no encontrado:', id);
+        return res.status(404).json({ 
+          error: "Jugador no encontrado",
+          details: `No se encontró un jugador con el ID: ${id}`
+        });
+      }
+
+      // Validación de campos requeridos del frontend
+      const requiredFields = ['long_name', 'nationality_name', 'club_name', 'player_positions'];
+      const missingFields = requiredFields.filter(field => !updateData[field]);
+      if (missingFields.length > 0) {
+        return res.status(400).json({
+          error: "Datos inválidos",
+          details: `Los siguientes campos son requeridos: ${missingFields.join(', ')}`
+        });
+      }
+
+      // Validar overall y age
+      const overall = Number(updateData.overall);
+      const age = Number(updateData.age);
+
+      if (isNaN(overall) || overall < 0 || overall > 100) {
+        return res.status(400).json({
+          error: "Datos inválidos",
+          details: "La valoración debe ser un número entre 0 y 100"
+        });
+      }
+
+      if (isNaN(age) || age < 16 || age > 60) {
+        return res.status(400).json({
+          error: "Datos inválidos",
+          details: "La edad debe ser un número entre 16 y 60"
+        });
+      }
+
+      // Preparar datos para actualizar
+      const updatePayload = {
+        // Mantener los campos requeridos del modelo que no se actualizan
+        fifa_version: playerToUpdate.fifa_version,
+        fifa_update: playerToUpdate.fifa_update,
+        player_face_url: playerToUpdate.player_face_url,
+        // Campos actualizables
+        long_name: updateData.long_name,
+        nationality_name: updateData.nationality_name,
+        club_name: updateData.club_name,
+        player_positions: updateData.player_positions,
+        overall: overall,
+        age: age,
+        // Mantener otros campos no actualizados
+        potential: playerToUpdate.potential,
+        value_eur: playerToUpdate.value_eur,
+        wage_eur: playerToUpdate.wage_eur,
+        height_cm: playerToUpdate.height_cm,
+        weight_kg: playerToUpdate.weight_kg,
+        preferred_foot: playerToUpdate.preferred_foot,
+        weak_foot: playerToUpdate.weak_foot,
+        skill_moves: playerToUpdate.skill_moves,
+        international_reputation: playerToUpdate.international_reputation,
+        work_rate: playerToUpdate.work_rate,
+        body_type: playerToUpdate.body_type
+      };
+
+      // Actualizar el jugador
+      await playerToUpdate.update(updatePayload);
+
+      console.log('Jugador actualizado exitosamente:', {
+        id: id,
+        newData: updatePayload
+      });
+
+      // Obtener el jugador actualizado para retornar
+      const updatedPlayer = await player.findByPk(id);
+
+      res.status(200).json({
+        message: "Jugador actualizado exitosamente",
+        player: updatedPlayer
+      });
+
+    } catch (error) {
+      console.error("Error al actualizar el jugador:", error);
+      // Mejorar el manejo de errores específicos
+      if (error.name === 'SequelizeValidationError') {
+        return res.status(400).json({
+          error: "Error de validación",
+          details: error.errors.map(e => e.message).join(', ')
+        });
+      }
+      res.status(500).json({
+        error: "Error al actualizar el jugador",
+        details: error.message || 'Error interno del servidor'
+      });
+    }
+  },
   postPlayerById, 
   deletePlayerById
 };

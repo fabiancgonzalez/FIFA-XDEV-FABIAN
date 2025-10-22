@@ -45,7 +45,7 @@
     
     <div *ngIf="selectedPlayerId !== null">
         <h3>Editar Jugador</h3>
-        <form ngNative [formGroup]="editPlayerForm" (ngSubmit)="guardarCambios()">
+        <form [formGroup]="editPlayerForm" (ngSubmit)="guardarCambios()">
             <div class="form-group">
                 <label for="long_name">Nombre:</label>
                 <input formControlName="long_name" />
@@ -70,7 +70,7 @@
                 <label for="player_positions">Posición:</label>
                 <input formControlName="player_positions" />
             </div>
-                        <button type="submit" class="btn-guardar">Guardar Cambios</button>
+            <button type="submit" class="btn-guardar" [disabled]="editPlayerForm.invalid">Guardar Cambios</button>
 
 
 
