@@ -31,6 +31,6 @@ Detalles Técnicos:
 ● El frontend debe estar construido en Angular.
 ● Utilizar MySQL como base de datos.
 ● La aplicación debe incluir validaciones tanto en el frontend como en el backend. Hint:
-Utilizar reactive forms de Angular y express-validator o class-validator en Node.js)
+Utilizar reactive forms de Angular y express-validator o class-validator en Node.js
 
 SE PUEDE VER LA APLICACION FUNCIONADO EN: https://youtu.be/Av6aoYnSdf4

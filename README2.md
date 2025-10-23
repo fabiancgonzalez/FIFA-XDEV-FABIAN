@@ -44,7 +44,8 @@ Como correr el proyecto
 
 •	Tener Node.js y npm instalados.
 •	Tener Angular CLI instalado globalmente.
-•	Crear una base de datos MySQL con los archivos ".sql" adjuntos en la carpeta playersbackend/src/database  con el nombre "fifa_local.sql".
+•	Usar XAMPP y arrancar el servidor Apache y Mysql.
+•	Crear una base de datos MySQL con los archivos ".sql" adjuntos en la carpeta playersbackend/src/database  con el nombre     "   "fifa_local.sql".
 •	Utilizar el comando "npm install" para instalar dependencias.
 •	Utilizar el comando “npm run dev” dentro de la carpeta players-backend.
 •	Utilzar el comando “ng serve –o” dentro de la carpeta players-frontend.
