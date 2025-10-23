@@ -16,7 +16,7 @@ export class OnePlayerComponent implements OnChanges, OnInit, AfterViewInit {
 
 
   busquedaJugador:string = '';
-  busquedaJugadorSeason:number = 0;
+  busquedaJugadorSeason:number = 23; // Inicializar con un valor válido por defecto
   resultados: any[] = [];
   busquedaRealizada = false;
   esquema: any;
@@ -24,9 +24,15 @@ export class OnePlayerComponent implements OnChanges, OnInit, AfterViewInit {
   dataPlayer:any[] = [];
   labelsPlayer: any[] =[];
   token: any = '';
+  mensaje: string = '';
   
   ngOnInit(): void {
     this.token = localStorage.getItem('token');
+    console.log('One-Player - Token obtenido:', this.token ? 'Token presente' : 'Sin token');
+    
+    if (!this.token) {
+      this.mensaje = 'Por favor, inicie sesión para buscar jugadores';
+    }
   }
   ngAfterViewInit(): void {
    
@@ -38,23 +44,59 @@ export class OnePlayerComponent implements OnChanges, OnInit, AfterViewInit {
       
   }
   obtenerJugador(){
-    if (this.busquedaJugador.length > 0 && this.busquedaJugadorSeason !== null) {
+    console.log('🔍 One-Player - Iniciando búsqueda:', {
+      busquedaJugador: this.busquedaJugador,
+      busquedaJugadorSeason: this.busquedaJugadorSeason,
+      token: this.token ? 'Token presente' : 'Sin token'
+    });
+
+    // Limpiar mensaje anterior
+    this.mensaje = '';
+
+    if (!this.busquedaJugador.trim()) {
+      this.mensaje = 'Por favor ingrese el nombre de un jugador';
+      console.log('❌ Error: Nombre de jugador vacío');
+      return;
+    }
+
+    if (!this.token) {
+      this.mensaje = 'Error: No hay token de autenticación disponible';
+      console.log('❌ Error: Sin token');
+      return;
+    }
+
+    if (this.busquedaJugador.length > 0 && this.busquedaJugadorSeason > 0) {
+      console.log('📡 Realizando petición al servidor...');
      
       this.moduloHttpService
         .getOnePlayerByName(this.busquedaJugador, this.busquedaJugadorSeason, this.token)
         .subscribe({
           
           next: (players) => {
-            this.resultados = players;
+            console.log('✅ Respuesta del servidor:', players);
+            this.resultados = Array.isArray(players) ? players : [players]; // Asegurar que sea un array
             this.busquedaRealizada = true;
-            this.renderChart(this.resultados)
-            console.log(this.resultados)
+            
+            if (this.resultados.length > 0) {
+              this.renderChart(this.resultados);
+              this.mensaje = `Jugador encontrado: ${this.resultados[0].long_name}`;
+            } else {
+              this.mensaje = 'No se encontró el jugador especificado';
+            }
           },
           error: (err) => {
+            console.error('❌ Error en búsqueda:', err);
             this.resultados = [];
-            console.log(err);
+            this.busquedaRealizada = true;
+            this.mensaje = `Error en la búsqueda: ${err.error?.error || err.message || 'Error desconocido'}`;
           },
         });
+    } else {
+      this.mensaje = 'Por favor complete todos los campos (nombre y temporada)';
+      console.log('❌ Condiciones no cumplidas:', {
+        nombreLength: this.busquedaJugador.length,
+        season: this.busquedaJugadorSeason
+      });
     }
   }
   renderChart(player: any): void {

@@ -60,8 +60,11 @@ export class ModuloHTTPService {
 
   getPlayerByName(name: string, token: string, limit: number): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const params = new HttpParams().set('limit', limit.toString());
-    return this.httpClient.get(`${this.urlApi}name/${name}`, {
+    const params = new HttpParams()
+      .set('name', name)
+      .set('limit', limit.toString());
+    
+    return this.httpClient.get(`${this.urlApi}search`, {
       headers,
       params,
     });
@@ -123,9 +126,18 @@ export class ModuloHTTPService {
 
   downloadCSVName(name: string, token: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.httpClient.get(`${this.urlApi}name/${name}/csv`, {
+    const params = new HttpParams().set('name', name);
+    
+    console.log('📡 Descargando CSV por nombre:', {
+      url: `${this.urlApi}search/csv`,
+      params: { name },
+      headers: 'Authorization presente'
+    });
+    
+    return this.httpClient.get(`${this.urlApi}search/csv`, {
       responseType: 'blob',
       headers,
+      params
     });
   }
   downloadCSVClub(

@@ -42,7 +42,7 @@ router.post('/login', async (req, res) => {
     });
 
     // Usar el método comparePassword del modelo
-    const isValidPassword = await user.comparePassword(password);
+    const isValidPassword = user.comparePassword(password);
     
     console.log('Verificación de contraseña:', {
       usuarioEncontrado: true,
@@ -81,6 +81,43 @@ router.post('/login', async (req, res) => {
     console.error('Error en login:', error);
     res.status(500).json({ 
       message: 'Error al iniciar sesión',
+      error: error.message 
+    });
+  }
+});
+
+// Ruta temporal para actualizar contraseña fabian a MD5
+router.post('/update-fabian-md5', async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { username: 'fabian' } });
+    
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario fabian no encontrado' });
+    }
+
+    // Generar hash MD5 de la contraseña 'xdevfabian'
+    const md5Password = crypto.createHash('md5').update('xdevfabian').digest('hex');
+    
+    console.log('Actualizando contraseña fabian:', {
+      currentPassword: user.password,
+      newMD5Password: md5Password
+    });
+
+    // Actualizar directamente en la base de datos
+    await User.update(
+      { password: md5Password },
+      { where: { username: 'fabian' } }
+    );
+
+    res.json({ 
+      message: 'Contraseña de fabian actualizada a MD5', 
+      md5Hash: md5Password 
+    });
+
+  } catch (error) {
+    console.error('Error actualizando contraseña fabian:', error);
+    res.status(500).json({ 
+      message: 'Error al actualizar contraseña',
       error: error.message 
     });
   }

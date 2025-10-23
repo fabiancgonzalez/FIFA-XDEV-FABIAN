@@ -38,13 +38,14 @@
   </div>
 </div>
 <button (click)="obtenerJugadorPorNombre()" class="button-buscar">Buscar</button>
-<div class="chart">
-  <canvas id="myChart"></canvas>
-</div>
-<div class="resultados" *ngIf="resultados.length > 0">
-  <h1>Resultados</h1>
 
-  <table>
+<!-- Container principal con layout 70/30 -->
+<div class="main-container" *ngIf="resultados.length > 0">
+  
+  <!-- Sección izquierda: Resultados (70%) -->
+  <div class="resultados-section">
+    <h1>Resultados</h1>
+    <table>
     <tr>
       <th>Nombre</th>
       <th>Versión</th>
@@ -57,16 +58,20 @@
       <th>Edad</th>
     </tr>
     <tr *ngFor="let player of resultados || [] ">
-      <td>{{ player.long_name }}</td>
+      <td class="nombre-clickeable" (click)="mostrarJugadorEnChart(player.long_name)" title="Haz clic para ver en el gráfico">
+        {{ player.long_name }}
+      </td>
       <td>{{ player.fifa_version }}</td>
       <td>
-          <img [src]="sanitizeUrl(getImageUrl(player))"
+          <img [src]="getImageUrl(player)"
                class="player-image"
                width="64"
                height="64"
                (error)="handleImageError($event)"
-               alt="Foto del jugador"
-               loading="lazy" />
+               [alt]="'Foto de ' + player.long_name"
+               loading="eager"
+               crossorigin="anonymous"
+               referrerpolicy="no-referrer" />
       </td>
       <td>{{ player.nationality_name }}</td>
       <td>{{ player.club_name }}</td>
@@ -76,4 +81,18 @@
       <td>{{ player.age }}</td>
     </tr>
   </table>
+  </div>
+
+  <!-- Sección derecha: Gráfico (30%) -->
+  <div class="chart-section">
+    <div class="chart-controls" *ngIf="resultados.length > 1">
+      <button (click)="mostrarTodosLosJugadores()" class="button-todos" title="Mostrar todos los jugadores en el gráfico">
+        📊 Ver Todos
+      </button>
+    </div>
+    <div class="chart-container">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+
 </div>

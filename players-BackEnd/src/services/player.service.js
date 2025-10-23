@@ -16,7 +16,16 @@ async function getPlayersByName(playerName, amount) {
     limit: amount,
   };
 
-  return player.findAll(query);
+  console.log('🗄️ Consulta SQL generada:', {
+    playerName,
+    amount,
+    query: JSON.stringify(query, null, 2)
+  });
+
+  const result = await player.findAll(query);
+  console.log('📊 Resultados de la consulta:', result?.length || 0);
+  
+  return result;
 }
 /**
  *
@@ -68,15 +77,31 @@ async function getPlayersFilteredPO(playerAttribute, playerValue, amount) {
 async function getOnePlayerByName(nameArr, fifaVersion) {
   const query = {
     where: {
-      [Op.and]: nameArr.map((name) => ({
-        long_name: {
-          [Op.like]: `%${name}%`,
-        },
-        fifa_version: fifaVersion,
-      })),
+      [Op.and]: [
+        // Condiciones para el nombre (cada término debe estar presente)
+        ...nameArr.map((name) => ({
+          long_name: {
+            [Op.like]: `%${name}%`,
+          }
+        })),
+        // Condición para la versión FIFA (solo una vez)
+        {
+          fifa_version: fifaVersion,
+        }
+      ]
     },
   };
-  return player.findOne(query);
+
+  console.log('🗄️ One-Player - Consulta SQL generada:', {
+    nameArr,
+    fifaVersion,
+    query: JSON.stringify(query, null, 2)
+  });
+
+  const result = await player.findOne(query);
+  console.log('📊 One-Player - Resultado:', result ? `Encontrado: ${result.long_name}` : 'No encontrado');
+  
+  return result;
 }
 
 module.exports = {

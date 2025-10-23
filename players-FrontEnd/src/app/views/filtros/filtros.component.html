@@ -30,6 +30,11 @@
     <option value="30">30</option>
   </select>
   <button (click)="obtenerJugadorPorNombre()">Buscar</button>
+  
+  <!-- Mostrar mensajes -->
+  <div *ngIf="mensaje" class="mensaje" [ngClass]="{'error': mensaje.includes('Error'), 'success': !mensaje.includes('Error')}">
+    {{ mensaje }}
+  </div>
 </div>
 
 <div class="busqueda-club" *ngIf="club">

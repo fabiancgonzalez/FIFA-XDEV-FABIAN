@@ -11,6 +11,10 @@ const PlayerController = require("../controllers/player.controller");
 const DocumentsController = require("../controllers/documents.controller");
 
 
+//Filtrar jugador por nombre
+//http://localhost:3000/api/players/search?name=Lionel%20Andr%C3%A9s%20Messi%20Cuccittini
+router.get("/search", [authenticateJWT], PlayerController.getPlayersByName);
+
 // Filtrar jugador por ID
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
@@ -27,13 +31,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//Filtrar jugador por nombre
-//http://localhost:3000/api/players/name/Lionel%20Andr%C3%A9s%20Messi%20Cuccittini
-router.get("/name/:name", [authenticateJWT], PlayerController.getPlayersByName);
-
 //Descargar CSV Name
-router.get("/name/:name/csv", DocumentsController.getPlayersByNameCsv);
-  
+router.get("/search/csv", [authenticateJWT], DocumentsController.getPlayersByNameCsv);
 
 //http://localhost:3000/api/players/club/FC%20Barcelona
 //http://localhost:3000/api/players/club/talleres/23
@@ -53,6 +52,7 @@ router.get("/country/:country/:version/", [authenticateJWT], PlayerController.ge
 
 //Descargar CSV Country
 router.get("/country/:country/:version/csv", [authenticateJWT], DocumentsController.getPlayersByCountryCsv);
+
 // Filtrar por posición
 //http://localhost:3000/api/players/position/cf
 router.get("/position/:position", [authenticateJWT], PlayerController.getPlayersByPosition);

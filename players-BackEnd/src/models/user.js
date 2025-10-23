@@ -3,7 +3,7 @@ const sequelize = require('../config/database');
 const crypto = require('crypto');
 
 class users extends Model {
-  async comparePassword(candidatePassword) {
+  comparePassword(candidatePassword) {
     try {
       if (!this.password || !candidatePassword) {
         console.error('Falta contraseña para comparar:', {
@@ -13,10 +13,14 @@ class users extends Model {
         return false;
       }
 
-      const md5Hash = crypto.createHash('md5').update(candidatePassword).digest('hex');
-      const isValid = md5Hash === this.password;
+      // Generar hash MD5 de la contraseña candidata
+      const candidateHashMD5 = crypto.createHash('md5').update(candidatePassword).digest('hex');
+      const isValid = candidateHashMD5 === this.password;
 
-      console.log('Verificación de contraseña:', {
+      console.log('Verificación de contraseña MD5:', {
+        candidatePassword: candidatePassword,
+        candidateHashMD5: candidateHashMD5,
+        storedPassword: this.password,
         isValid: isValid
       });
 
@@ -25,6 +29,11 @@ class users extends Model {
       console.error('Error en comparePassword:', error);
       return false;
     }
+  }
+
+  // Método estático para hashear contraseñas con MD5
+  static hashPassword(password) {
+    return crypto.createHash('md5').update(password).digest('hex');
   }
 }
 
@@ -65,6 +74,8 @@ users.init({
       if (user.password) {
         user.password = crypto.createHash('md5').update(user.password).digest('hex');
         console.log('Contraseña hasheada con MD5 en beforeCreate:', {
+          originalPassword: user.password,
+          hashedPassword: user.password,
           hashedLength: user.password.length
         });
       }
@@ -73,6 +84,7 @@ users.init({
       if (user.changed('password')) {
         user.password = crypto.createHash('md5').update(user.password).digest('hex');
         console.log('Contraseña hasheada con MD5 en beforeUpdate:', {
+          hashedPassword: user.password,
           hashedLength: user.password.length
         });
       }

@@ -26,10 +26,15 @@
             <option value="20">20</option>
             <option value="21">21</option>
             <option value="22">22</option>
-            <option value="23">23</option>
+            <option value="23" selected>23</option>
         </select>
     </div>
     <button class="btn-guardar" (click)="obtenerJugador()">Buscar</button>
+    
+    <!-- Mostrar mensajes -->
+    <div *ngIf="mensaje" class="mensaje" [ngClass]="{'error': mensaje.includes('Error'), 'success': !mensaje.includes('Error') && mensaje.includes('encontrado')}">
+      {{ mensaje }}
+    </div>
 </div>
 
 <div class="resultados" *ngIf="resultados.length > 0">

@@ -1,6 +1,11 @@
 <app-header></app-header>
 
 <div class="stats-timeline-container">
+  <!-- Botón cerrar en la esquina superior derecha -->
+  <button class="btn-cerrar" (click)="cerrarEstadisticas()" title="Cerrar estadísticas">
+    <span class="close-icon">&times;</span>
+  </button>
+  
   <div class="stats-controls">
     <div class="player-info">
       <img [src]="playerFaceUrl" alt="{{playerName}}" class="player-image" *ngIf="playerFaceUrl"/>
@@ -23,5 +28,13 @@
   
   <div class="chart-container">
     <canvas id="myChart"></canvas>
+  </div>
+  
+  <!-- Botones de acción en la parte inferior -->
+  <div class="action-buttons">
+    <button class="btn-volver" (click)="cerrarEstadisticas()">
+      <span class="btn-icon">←</span>
+      Volver
+    </button>
   </div>
 </div>

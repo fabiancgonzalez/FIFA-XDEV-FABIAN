@@ -58,7 +58,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJmYWJpYW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjExODQ1MjAsImV4cCI6MTc2MTI3MDkyMH0.lgvoLuiQyZlZL-Vupin-FlQ81yyGY3QttT3GqfBFOSY",
 							"type": "string"
 						}
 					]
@@ -99,7 +99,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJmYWJpYW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjExODQ1MjAsImV4cCI6MTc2MTI3MDkyMH0.lgvoLuiQyZlZL-Vupin-FlQ81yyGY3QttT3GqfBFOSY",
 							"type": "string"
 						}
 					]
@@ -147,7 +147,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJmYWJpYW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjExODQ1MjAsImV4cCI6MTc2MTI3MDkyMH0.lgvoLuiQyZlZL-Vupin-FlQ81yyGY3QttT3GqfBFOSY",
 							"type": "string"
 						}
 					]
@@ -186,7 +186,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJmYWJpYW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjExODQ1MjAsImV4cCI6MTc2MTI3MDkyMH0.lgvoLuiQyZlZL-Vupin-FlQ81yyGY3QttT3GqfBFOSY",
 							"type": "string"
 						}
 					]
@@ -224,7 +224,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJmYWJpYW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjExODQ1MjAsImV4cCI6MTc2MTI3MDkyMH0.lgvoLuiQyZlZL-Vupin-FlQ81yyGY3QttT3GqfBFOSY",
 							"type": "string"
 						}
 					]
@@ -262,7 +262,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJmYWJpYW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjExODQ1MjAsImV4cCI6MTc2MTI3MDkyMH0.lgvoLuiQyZlZL-Vupin-FlQ81yyGY3QttT3GqfBFOSY",
 							"type": "string"
 						}
 					]
@@ -295,7 +295,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJmYWJpYW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjExODQ1MjAsImV4cCI6MTc2MTI3MDkyMH0.lgvoLuiQyZlZL-Vupin-FlQ81yyGY3QttT3GqfBFOSY",
 							"type": "string"
 						}
 					]
@@ -310,7 +310,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"long_name\": \"Ruben Filipe Marques Amorim\",\r\n  \"overall\": 77,\r\n  \"age\": 29,\r\n  \"nationality_name\": \"Portugal\"\r\n}",
+					"raw": "{\r\n  \"long_name\": \"Fabian Ceferino Gonzalez\",\r\n  \"overall\": 98,\r\n  \"age\": 38,\r\n  \"nationality_name\": \"Argentina\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -341,7 +341,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoidXN1YXJpbyIsImlhdCI6MTczMDg0MjE1OH0.C8D0faKUhbhyekCX0gBCBo_vCYkgebXD-Dw8eAG4loI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJmYWJpYW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjExODQ1MjAsImV4cCI6MTc2MTI3MDkyMH0.lgvoLuiQyZlZL-Vupin-FlQ81yyGY3QttT3GqfBFOSY",
 							"type": "string"
 						}
 					]
@@ -356,7 +356,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"long_name\":\"Ramon Sosa\",\r\n    \"player_positions\":\"LW\",\r\n    \"club_name\":\"Talleres\",\r\n    \"nationality_name\":\"Paraguay\",\r\n    \"overall\":\"80\",\r\n    \"age\":\"24\"\r\n\r\n}",
+					"raw": "{\r\n    \"long_name\":\"Alicia Vallejo\",\r\n    \"player_positions\":\"LW\",\r\n    \"club_name\":\"Instituto\",\r\n    \"nationality_name\":\"Argentina\",\r\n    \"overall\":\"98\",\r\n    \"age\":\"35\"\r\n\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

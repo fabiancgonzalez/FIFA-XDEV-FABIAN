@@ -9,25 +9,45 @@ const player = require("../models/player");
  * @returns
  */
 async function getPlayersByName(req, res) {
-  let playerName = decodeURIComponent(req.params.name);
-  const limit = parseInt(req.query.limit, 10);
-  
-  if (!playerName) {
-    return res.status(400).json({ error: "Falta el parámetro de nombre" });
-  }
-
   try {
-   
-    playerName = playerName.toLowerCase().split(" ");
+    console.log('🔍 Búsqueda por nombre - Parámetros recibidos:', {
+      query: req.query,
+      headers: {
+        authorization: req.headers.authorization ? 'Token presente' : 'Sin token'
+      }
+    });
 
-    const playersResult = await PlayerServices.getPlayersByName(playerName, limit);
-  
-    if (!playersResult?.length) {
-      return res.status(404).json({ error: "Jugador no encontrado" });
+    let playerName = req.query.name;
+    if (!playerName) {
+      console.log('❌ Error: Falta parámetro de nombre');
+      return res.status(400).json({ error: "Falta el parámetro de nombre" });
     }
 
-  
+    // Establecer límite
+    const limit = parseInt(req.query.limit, 10) || 15; // default 15 if not provided
+    console.log('📊 Parámetros de búsqueda:', { playerName, limit });
+    
+    // Dividir nombre y convertir a minúsculas
+    const nameTerms = playerName.toLowerCase().split(" ").filter(term => term.length > 0);
+    
+    if (nameTerms.length === 0) {
+      console.log('❌ Error: Términos de búsqueda vacíos');
+      return res.status(400).json({ error: "Nombre de búsqueda inválido" });
+    }
 
+    console.log('🔎 Buscando jugadores con términos:', nameTerms);
+    const playersResult = await PlayerServices.getPlayersByName(nameTerms, limit);
+    console.log('📋 Resultados encontrados:', playersResult?.length || 0);
+  
+    if (!playersResult?.length) {
+      console.log('❌ No se encontraron resultados');
+      return res.status(404).json({ 
+        error: "No se encontraron jugadores con ese nombre",
+        searchTerms: nameTerms
+      });
+    }
+
+    console.log('✅ Enviando resultados exitosamente');
     res.status(200).json(playersResult);
   } catch (error) {
     console.error("Error al obtener jugadores por nombre:", error);
@@ -205,34 +225,50 @@ async function  getPlayersByOverall(req, res){
  * @returns 
  */
 async function getOnePlayerByName(req, res){
+  console.log('🔍 One-Player Backend - Parámetros recibidos:', {
+    name: req.params.name,
+    season: req.params.season,
+    headers: {
+      authorization: req.headers.authorization ? 'Token presente' : 'Sin token'
+    }
+  });
+
   const playerName = decodeURIComponent(req.params.name);
   const fifaVersion = decodeURIComponent(req.params.season);
 
   if (!playerName) {
+    console.log('❌ Error: Falta parámetro de nombre');
     return res.status(400).json({ error: "Falta el parámetro de nombre" });
   }
 
   if (!fifaVersion) {
+    console.log('❌ Error: Falta parámetro de temporada');
     return res.status(400).json({ error: "Falta el parámetro de temporada" });
   }
+  
   try {
     // Dividide el nombre en palabras clave y las convertimos a minúsculas
-    const nameArr = playerName.toLowerCase().split(" ");
+    const nameArr = playerName.toLowerCase().split(" ").filter(term => term.length > 0);
+    console.log('🔎 Términos de búsqueda:', nameArr);
 
     const playerResult = await PlayerServices.getOnePlayerByName(nameArr, fifaVersion);
-     console.log(playerResult)
-    if (playerResult.length === 0) {
+    console.log('📋 Resultado de la búsqueda:', playerResult);
+    
+    // findOne devuelve null si no encuentra nada, no un array vacío
+    if (!playerResult) {
+      console.log('❌ Jugador no encontrado');
       return res.status(404).json({ error: "Jugador no encontrado" });
     }
 
-    const player = playerResult ? [playerResult] : []; //FindOne no devuelve un array asique debemos convertirlo de esta manera
+    // FindOne devuelve un solo objeto, no un array, así que lo convertimos a array
+    const player = [playerResult];
 
+    console.log('✅ Enviando jugador encontrado:', player[0].long_name);
     res.status(200).json(player);
-    console.log(player)
   } catch (error) {
-    console.error("Error al obtener jugadores por nombre:", error);
+    console.error("❌ Error al obtener jugador por nombre:", error);
     res.status(500).json({
-      error: `Error al obtener los jugadores del nombre: ${playerName}`,
+      error: `Error al obtener el jugador: ${playerName}`,
     });
   }
 

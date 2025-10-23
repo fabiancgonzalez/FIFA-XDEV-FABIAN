@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModuloHTTPService } from '../../core/services/modulo-http.service';
 import { Chart, ChartConfiguration, ChartData, ChartOptions } from 'chart.js/auto';
 
@@ -19,6 +19,7 @@ export class StatsTimelineComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private httpService: ModuloHTTPService
   ) {}
 
@@ -164,5 +165,22 @@ export class StatsTimelineComponent implements OnInit {
       data,
       options
     });
+  }
+
+  // Método para cerrar y volver a la página anterior
+  cerrarEstadisticas() {
+    console.log('🔙 Cerrando estadísticas, navegando hacia atrás...');
+    
+    // Limpiar el gráfico antes de salir
+    if (this.chart) {
+      this.chart.destroy();
+      this.chart = null;
+    }
+    
+    // Navegar hacia atrás en el historial del navegador
+    window.history.back();
+    
+    // Alternativa: navegar a una ruta específica
+    // this.router.navigate(['/filtros']); // o la ruta que desees
   }
 }
