@@ -1,0 +1,84 @@
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #2c3e50;
+  color: white;
+  z-index: 1000;
+  border-top: 2px solid #3498db;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+
+  .footer-content {
+    padding: 12px 20px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .footer-text {
+      margin: 0;
+      font-size: 14px;
+      font-family: 'Arial', sans-serif;
+      
+      strong {
+        color: #3498db;
+        font-weight: 600;
+      }
+
+      .developer-name {
+        color: #ffffff;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        font-size: 1.05em;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        padding: 2px 4px;
+        border-radius: 3px;
+
+        &:hover {
+          color: #e89b1f;
+          background-color: rgba(255, 255, 255, 0.1);
+          text-decoration: underline;
+          transform: scale(1.02);
+        }
+
+        &:visited {
+          color: #ffffff;
+        }
+
+        &:active {
+          color: #2980b9;
+        }
+      }
+    }
+  }
+}
+
+// Adjust body to account for fixed footer
+:host-context(body) {
+  padding-bottom: 60px;
+}
+
+// Media queries for responsiveness
+@media (max-width: 768px) {
+  .app-footer {
+    .footer-content {
+      padding: 10px 15px;
+      
+      .footer-text {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .app-footer {
+    .footer-content {
+      .footer-text {
+        font-size: 11px;
+        line-height: 1.3;
+      }
+    }
+  }
+}

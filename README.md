@@ -32,3 +32,4 @@ Detalles Técnicos:
 ● Utilizar MySQL como base de datos.
 ● La aplicación debe incluir validaciones tanto en el frontend como en el backend. Hint:
 Utilizar reactive forms de Angular y express-validator o class-validator en Node.js)
+

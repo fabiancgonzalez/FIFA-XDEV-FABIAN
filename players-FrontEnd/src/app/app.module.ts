@@ -20,6 +20,7 @@ import { SafeUrlPipe } from './core/pipes/safe-url.pipe';
 import { StatsTimelineComponent } from './views/stats-timeline/stats-timeline.component';
 import { LogoutComponent } from './views/logout/logout.component';
 import { UserManagementComponent } from './views/user-management/user-management.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { UserManagementComponent } from './views/user-management/user-management
     SafeUrlPipe,
     StatsTimelineComponent,
     LogoutComponent,
-    UserManagementComponent
+    UserManagementComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
