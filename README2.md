@@ -1,5 +1,6 @@
 Proyecto Fifa Players
 (FIFA-XDEV-FABIAN)
+SE PUEDE VER LA APLICACION FUNCIONANDO EN: https://youtu.be/Av6aoYnSdf4
 Descripción del Proyecto
 Este proyecto es un sistema CRUD que permite gestionar jugadores desde una base de datos llamada fifa_local. Está desarrollado con Angular para el frontend y Node.js con Express para el backend. Se utiliza MySQL como base de datos relacional, y Sequelize como ORM para manejar las consultas a la base de datos. Además, se incluye autenticación mediante JWT.
 ________________________________________
@@ -52,3 +53,4 @@ Como correr el proyecto
  este nos devolverá un token que debemos copiar y utilizar en cada endpoint.
  Debemos ingresar a “Authorization” [->Auth Type -> Bearer Token]  e ingresar Token.
 
+SE PUEDE VER LA APLICACION FUNCIONANDO EN: https://youtu.be/Av6aoYnSdf4

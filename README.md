@@ -16,7 +16,7 @@ xlsx).
 2. Obtener información de un solo jugador:
 ○ Crear endpoint y pantalla que devuelva los detalles de un jugador específico, dado
 su ID e implementar algun grafico para mostrar sus skills Hint: pueden utilizar
-Chart.js Radar Chart)
+Chart.js Radar Chart
 3. Editar la información de un jugador:
 ○ Crear endpoint y pantalla que permita modificar la información de un jugador
 (nombre, posición, club, calificación, nacionalidad y sus skills).
@@ -33,3 +33,4 @@ Detalles Técnicos:
 ● La aplicación debe incluir validaciones tanto en el frontend como en el backend. Hint:
 Utilizar reactive forms de Angular y express-validator o class-validator en Node.js)
 
+SE PUEDE VER LA APLICACION FUNCIONADO EN: https://youtu.be/Av6aoYnSdf4
